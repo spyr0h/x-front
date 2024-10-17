@@ -1,4 +1,5 @@
 import VideoCard from '@/components/VideoCard';
+import Header from '@/components/Header';
 
 export const dynamic = 'force-dynamic';  // TODO : ISR
 
@@ -22,8 +23,6 @@ export default async function SearchPage({ searchParams }) {
   const queryString = new URLSearchParams(searchParams).toString();
   const fullUrl = `/video/search?${queryString}`;
 
-  console.log(fullUrl);
-
   if (!queryString) {
     return <p>Veuillez fournir des paramètres de recherche valides.</p>;
   }
@@ -33,12 +32,15 @@ export default async function SearchPage({ searchParams }) {
   const videos = data.searchResult.videos;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Résultats de recherche</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {videos.map(video => (
-          <VideoCard key={video.id} video={video} />
-        ))}
+    <div>
+      <Header />
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8 text-center">{data.seoData.headline}</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {videos.map(video => (
+            <VideoCard key={video.id} video={video} />
+          ))}
+        </div>
       </div>
     </div>
   );

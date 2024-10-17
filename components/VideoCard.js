@@ -1,4 +1,4 @@
-"use client"; // Ajoutez cette ligne en haut du fichier
+"use client";
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
