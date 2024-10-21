@@ -1,0 +1,109 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { TagIcon, UserIcon, HashtagIcon } from "@heroicons/react/24/outline";
+
+export default function SearchBar() {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<{
+    suggestions: Suggestion[];
+  }>({ suggestions: [] });
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (searchTerm) {
+      const delayDebounceFn = setTimeout(async () => {
+        const response = await fetch(
+          `http://139.99.61.232:8080/api/full/autocomplete`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ value: searchTerm }),
+          }
+        );
+
+        const data = await response.json();
+        setSearchResults(data);
+        setIsDropdownOpen(true);
+      }, 150);
+
+      return () => clearTimeout(delayDebounceFn);
+    } else {
+      setSearchResults({ suggestions: [] });
+      setIsDropdownOpen(false);
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+        setSearchTerm("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const renderIcon = (type: number) => {
+    switch (type) {
+      case 0:
+        return <HashtagIcon className="h-4 w-4 mr-2 text-gray-500" />;
+      case 1:
+        return <TagIcon className="h-4 w-4 mr-2 text-gray-500" />;
+      case 2:
+        return <UserIcon className="h-5 w-5 mr-2 text-gray-500" />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="relative w-full max-w-md" ref={dropdownRef}>
+      <input
+        type="text"
+        className="w-full px-4 py-2 bg-gray-700 text-white rounded"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      {isDropdownOpen && (
+        <ul className="absolute z-10 left-0 right-0 bg-white text-black rounded shadow-lg mt-1">
+          {searchResults.suggestions.length ? (
+            searchResults.suggestions.map((result: Suggestion) => (
+              <li
+                key={result.value}
+                className="hover:bg-gray-200 cursor-pointer"
+              >
+                <Link
+                  href={result.searchUrl}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setSearchTerm("");
+                  }}
+                  className="block px-4 py-2 flex items-center"
+                >
+                  {renderIcon(result.type)}
+                  {result.value}
+                </Link>
+              </li>
+            ))
+          ) : (
+            <li className="px-4 py-2 text-gray-500">No results found</li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
