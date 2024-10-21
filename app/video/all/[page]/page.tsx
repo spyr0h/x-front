@@ -5,12 +5,12 @@ import Paging from "@/app/ui/Paging";
 
 type Props = {
   params: {
-    name: string;
+    page: number;
   };
 };
 
-const getData = async (name: string) => {
-  const constructedUrl = `/video/categories/${name}`;
+const getData = async (page: number) => {
+  const constructedUrl = `/video/all/${page}`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
     method: "POST",
@@ -18,14 +18,14 @@ const getData = async (name: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ url: constructedUrl }),
-    next: { revalidate: 300 },
+    next: { revalidate: 10 },
   });
 
   return res.json();
 };
 
-export default async function Categories({ params }: Props) {
-  const data = await getData(params.name);
+export default async function Tags({ params }: Props) {
+  const data = await getData(params.page);
 
   const videos = data.searchResult.videos;
 

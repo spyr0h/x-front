@@ -12,8 +12,6 @@ type Props = {
 const getData = async (name: string) => {
   const constructedUrl = `/video/tags/${name}`;
 
-  console.error(constructedUrl);
-
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
     method: "POST",
     headers: {
@@ -26,7 +24,7 @@ const getData = async (name: string) => {
   return res.json();
 };
 
-export default async function Categories({ params }: Props) {
+export default async function Tags({ params }: Props) {
   const data = await getData(params.name);
 
   const videos = data.searchResult.videos;
