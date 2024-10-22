@@ -3,10 +3,24 @@ import Link from "next/link";
 import SearchBar from "./SearchBar";
 import Image from "next/image";
 
-export default function Header() {
+type HeaderProps = {
+  linkboxes: LinkBoxes;
+};
+
+export default function Header({ linkboxes }: HeaderProps) {
+  const categories = Array.from({ length: 10 }, (_, i) => ({
+    name: `Category ${i + 1}`,
+    url: `/categories/${i + 1}`,
+  }));
+
+  const pornstars = Array.from({ length: 10 }, (_, i) => ({
+    name: `Pornstar ${i + 1}`,
+    url: `/pornstars/${i + 1}`,
+  }));
+
   return (
-    <header className="flex justify-between items-center p-4 bg-gray-800 text-white">
-      <div className="logo">
+    <div className="navbar bg-base-100 px-10">
+      <div className="navbar-start">
         <Link href="/" passHref>
           <Image
             src="https://www.shareicon.net/data/512x512/2015/09/18/642672_xxx_512x512.png"
@@ -17,8 +31,32 @@ export default function Header() {
           />
         </Link>
       </div>
-
-      <SearchBar />
-    </header>
+      <div className="navbar-center">
+        <ul className="menu menu-horizontal px-100">
+          <li>
+            <a>Item 1</a>
+          </li>
+          <li>
+            <details>
+              <summary>Parent</summary>
+              <ul className="p-2 w-screen">
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <a>Item 3</a>
+          </li>
+        </ul>
+      </div>
+      <div className="navbar-end flex-none gap-2">
+        <SearchBar />
+      </div>
+    </div>
   );
 }

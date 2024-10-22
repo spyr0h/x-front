@@ -62,3 +62,35 @@ type Paging = {
   previousPage: Page | null;
   nextPage: Page | null;
 };
+
+type LinkBoxLink = {
+  url: string;
+  linkText: string;
+  order: number;
+  count: number;
+};
+
+type LinkBox = {
+  title: string;
+  category: number;
+  order: number;
+  links: LinkBoxLink[];
+};
+
+type LinkBoxes = {
+  linkBoxes: LinkBox[];
+};
+
+type SearchResult = {
+  globalCount: number;
+  count: number;
+  videos: Video[];
+};
+
+type SeoData = {
+  title: string;
+  headline: string;
+  description: string;
+  canonical: string;
+  isIndexed: boolean;
+};

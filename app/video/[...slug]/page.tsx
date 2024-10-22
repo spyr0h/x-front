@@ -1,8 +1,14 @@
 import React from "react";
 import SerpLayout from "@/app/ui/SerpLayout";
 
-const getData = async () => {
-  const constructedUrl = `/video/all`;
+type Props = {
+  params: {
+    slug: string[];
+  };
+};
+
+const getData = async (slug: string[]) => {
+  const constructedUrl = `/video/${slug.join("/")}`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
     method: "POST",
@@ -16,8 +22,8 @@ const getData = async () => {
   return res.json();
 };
 
-export default async function Categories() {
-  const data = await getData();
+export default async function Tags({ params }: Props) {
+  const data = await getData(params.slug);
 
   return (
     <SerpLayout

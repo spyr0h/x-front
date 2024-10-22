@@ -70,16 +70,18 @@ export default function SearchBar() {
 
   return (
     <div className="relative w-full max-w-md" ref={dropdownRef}>
-      <input
-        type="text"
-        className="w-full px-4 py-2 bg-gray-700 text-white rounded"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <div className="form-control">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="input input-bordered"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
       {isDropdownOpen && (
-        <ul className="absolute z-10 left-0 right-0 bg-white text-black rounded shadow-lg mt-1">
+        <ul className="absolute z-10 left-0 right-0 bg-base-100 text-base-content rounded-lg shadow-lg mt-1">
           {searchResults.suggestions.length ? (
             searchResults.suggestions.map((result: Suggestion) => (
               <li
