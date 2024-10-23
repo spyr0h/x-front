@@ -78,7 +78,7 @@ type LinkBox = {
 };
 
 type LinkBoxes = {
-  linkBoxes: LinkBox[];
+  linkboxes: LinkBox[];
 };
 
 type SearchResult = {

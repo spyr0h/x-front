@@ -20,6 +20,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.position-unset {
+  position: unset;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

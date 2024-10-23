@@ -7,16 +7,30 @@ type HeaderProps = {
   linkboxes: LinkBoxes;
 };
 
-export default function Header({ linkboxes }: HeaderProps) {
-  const categories = Array.from({ length: 10 }, (_, i) => ({
-    name: `Category ${i + 1}`,
-    url: `/categories/${i + 1}`,
-  }));
+function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
+  return array.reduce((result: T[][], item: T, index: number) => {
+    if (index % chunkSize === 0) {
+      result.push([]); // Crée un nouveau sous-tableau si l'index est un multiple de chunkSize
+    }
+    result[result.length - 1].push(item); // Ajoute l'élément au sous-tableau courant
+    return result;
+  }, []);
+}
 
-  const pornstars = Array.from({ length: 10 }, (_, i) => ({
-    name: `Pornstar ${i + 1}`,
-    url: `/pornstars/${i + 1}`,
-  }));
+export default function Header({ linkboxes }: HeaderProps) {
+  console.error(linkboxes.linkboxes[1]);
+  const pornstars = linkboxes.linkboxes[1].links.map((link) => (
+    <li key={`${linkboxes.linkboxes[1].category}${link.order}`}>
+      <Link href={link.url} passHref>
+        {link.linkText}
+      </Link>
+    </li>
+  ));
+  const listedPornstars = separateIntoChunks(pornstars, 4).map((chunk, i) => (
+    <li key={i}>
+      <ul>{chunk.map((element) => element)}</ul>
+    </li>
+  ));
 
   return (
     <div className="navbar bg-base-100 px-10">
@@ -36,25 +50,24 @@ export default function Header({ linkboxes }: HeaderProps) {
           <li>
             <a>Item 1</a>
           </li>
-          <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2 w-screen">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </details>
+          <li className="dropdown dropdown-hover position-unset">
+            <a tabIndex={0} className="cursor-pointer">
+              Parent
+            </a>
+            <div className="absolute left-0 w-screen dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent flex pt-3">
+              <div className="p-0 m-0 bg-base-100 w-screen flex">
+                <ul className="menu xl:menu-horizontal lg:min-w-max">
+                  {listedPornstars}
+                </ul>
+              </div>
+            </div>
           </li>
           <li>
             <a>Item 3</a>
           </li>
         </ul>
       </div>
-      <div className="navbar-end flex-none gap-2">
+      <div className="navbar-end">
         <SearchBar />
       </div>
     </div>
