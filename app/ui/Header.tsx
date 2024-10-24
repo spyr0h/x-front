@@ -10,19 +10,18 @@ type HeaderProps = {
 function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
   return array.reduce((result: T[][], item: T, index: number) => {
     if (index % chunkSize === 0) {
-      result.push([]); // Crée un nouveau sous-tableau si l'index est un multiple de chunkSize
+      result.push([]);
     }
-    result[result.length - 1].push(item); // Ajoute l'élément au sous-tableau courant
+    result[result.length - 1].push(item);
     return result;
   }, []);
 }
 
 export default function Header({ linkboxes }: HeaderProps) {
-  console.error(linkboxes.linkboxes[1]);
   const pornstars = linkboxes.linkboxes[1].links.map((link) => (
     <li key={`${linkboxes.linkboxes[1].category}${link.order}`}>
       <Link href={link.url} passHref>
-        {link.linkText}
+        {link.linkText} ({link.count})
       </Link>
     </li>
   ));
@@ -33,7 +32,7 @@ export default function Header({ linkboxes }: HeaderProps) {
   ));
 
   return (
-    <div className="navbar bg-base-100 px-10">
+    <div className="navbar bg-base-100 px-10 w-full">
       <div className="navbar-start">
         <Link href="/" passHref>
           <Image
@@ -54,9 +53,9 @@ export default function Header({ linkboxes }: HeaderProps) {
             <a tabIndex={0} className="cursor-pointer">
               Parent
             </a>
-            <div className="absolute left-0 w-screen dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent flex pt-3">
-              <div className="p-0 m-0 bg-base-100 w-screen flex">
-                <ul className="menu xl:menu-horizontal lg:min-w-max">
+            <div className="absolute bg-transparent left-0 w-full rounded-none dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent focus:bg-transparent flex pt-3">
+              <div className="p-0 m-0 bg-base-100 flex w-full flex pt-3">
+                <ul className="menu xl:menu-horizontal lg:min-w-max m-0">
                   {listedPornstars}
                 </ul>
               </div>
