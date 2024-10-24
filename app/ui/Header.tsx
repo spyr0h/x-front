@@ -23,7 +23,7 @@ export default function Header({ linkboxes }: HeaderProps) {
       <a tabIndex={0} className="cursor-pointer">
         {linkbox.title}
       </a>
-      <div className="absolute bg-transparent left-0 w-full rounded-none dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent focus:bg-transparent flex pt-3">
+      <div className="absolute bg-transparent left-0 w-full rounded-none dropdown-no-anim dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent focus:bg-transparent flex pt-3">
         <div className="p-0 m-0 bg-base-100 flex w-full flex pt-3">
           <ul className="menu xl:menu-horizontal lg:min-w-max m-0">
             {separateIntoChunks(linkbox.links, 4).map((links, j) => (

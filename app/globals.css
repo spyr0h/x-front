@@ -24,6 +24,11 @@ body {
   position: unset;
 }
 
+.dropdown-no-anim {
+  transition: none !important;
+  animation: none !important;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

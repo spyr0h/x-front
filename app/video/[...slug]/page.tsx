@@ -1,4 +1,6 @@
 import React from "react";
+import { cache } from "react";
+import { Metadata } from "next";
 import SerpLayout from "@/app/ui/SerpLayout";
 
 type Props = {
@@ -7,8 +9,8 @@ type Props = {
   };
 };
 
-const getData = async (slug: string[]) => {
-  const constructedUrl = `/video/${slug.join("/")}`;
+const getData = cache(async (slug: string) => {
+  const constructedUrl = `/video/${slug}`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
     method: "POST",
@@ -20,10 +22,18 @@ const getData = async (slug: string[]) => {
   });
 
   return res.json();
-};
+});
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const data = await getData(`/video/${params.slug.join("/")}`);
+  return {
+    title: data.seoData.title,
+    description: data.seoData.description,
+  };
+}
 
 export default async function Tags({ params }: Props) {
-  const data = await getData(params.slug);
+  const data = await getData(`/video/${params.slug.join("/")}`);
 
   return (
     <SerpLayout

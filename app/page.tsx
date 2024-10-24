@@ -1,7 +1,11 @@
 import React from "react";
+import { cache } from "react";
+import { Metadata } from "next";
+import Head from "next/head";
 import SerpLayout from "@/app/ui/SerpLayout";
 
-const getData = async () => {
+const getData = cache(async () => {
+  console.log("CALAMARD");
   const constructedUrl = `/video/all`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
@@ -14,17 +18,31 @@ const getData = async () => {
   });
 
   return res.json();
-};
+});
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getData();
+  return {
+    title: data.seoData.title,
+    description: data.seoData.description,
+  };
+}
 
 export default async function Categories() {
   const data = await getData();
 
   return (
-    <SerpLayout
-      searchResult={data.searchResult}
-      seoData={data.seoData}
-      searchPaging={data.searchPaging}
-      linkboxes={data.linkboxes}
-    />
+    <div>
+      <Head>
+        <title>cacahouete</title>
+        <meta name="description" content="caca" />
+      </Head>
+      <SerpLayout
+        searchResult={data.searchResult}
+        seoData={data.seoData}
+        searchPaging={data.searchPaging}
+        linkboxes={data.linkboxes}
+      />
+    </div>
   );
 }
