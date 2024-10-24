@@ -18,16 +18,30 @@ function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
 }
 
 export default function Header({ linkboxes }: HeaderProps) {
-  const pornstars = linkboxes.linkboxes[1].links.map((link) => (
-    <li key={`${linkboxes.linkboxes[1].category}${link.order}`}>
-      <Link href={link.url} passHref>
-        {link.linkText} ({link.count})
-      </Link>
-    </li>
-  ));
-  const listedPornstars = separateIntoChunks(pornstars, 4).map((chunk, i) => (
-    <li key={i}>
-      <ul>{chunk.map((element) => element)}</ul>
+  const toPrintLinkboxes = linkboxes.linkboxes.map((linkbox, i) => (
+    <li key={i} className="dropdown dropdown-hover position-unset">
+      <a tabIndex={0} className="cursor-pointer">
+        {linkbox.title}
+      </a>
+      <div className="absolute bg-transparent left-0 w-full rounded-none dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent focus:bg-transparent flex pt-3">
+        <div className="p-0 m-0 bg-base-100 flex w-full flex pt-3">
+          <ul className="menu xl:menu-horizontal lg:min-w-max m-0">
+            {separateIntoChunks(linkbox.links, 4).map((links, j) => (
+              <li key={j}>
+                <ul>
+                  {links.map((link) => (
+                    <li key={`${linkbox.category}${j}`}>
+                      <Link href={link.url} passHref>
+                        {link.linkText}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </li>
   ));
 
@@ -49,18 +63,7 @@ export default function Header({ linkboxes }: HeaderProps) {
           <li>
             <a>Item 1</a>
           </li>
-          <li className="dropdown dropdown-hover position-unset">
-            <a tabIndex={0} className="cursor-pointer">
-              Parent
-            </a>
-            <div className="absolute bg-transparent left-0 w-full rounded-none dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent focus:bg-transparent flex pt-3">
-              <div className="p-0 m-0 bg-base-100 flex w-full flex pt-3">
-                <ul className="menu xl:menu-horizontal lg:min-w-max m-0">
-                  {listedPornstars}
-                </ul>
-              </div>
-            </div>
-          </li>
+          {toPrintLinkboxes}
           <li>
             <a>Item 3</a>
           </li>
