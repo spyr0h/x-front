@@ -41,7 +41,7 @@ type Video = {
   tags: Tag[];
   categories: Category[];
   pornstars: Pornstar[];
-  hostlinks: HostLink[];
+  links: HostLink[];
   pictures: Picture[];
 };
 

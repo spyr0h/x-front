@@ -1,45 +1,99 @@
 import React from "react";
-import Link from "next/link";
 import VideoCardImage from "./VideoCardImage";
+import Link from "next/link";
 
 type VideoCardProps = {
   video: Video;
 };
 
 export default function VideoCard({ video }: VideoCardProps) {
+  const categories = video.categories.slice(0, 3);
+  const tags = video.tags.slice(0, 2);
+  const pornstars = video.pornstars.slice(0, 2);
+
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white m-1 h-96 flex flex-col cursor-pointer">
-      <div className="flex-shrink-0 h-1/2 overflow-hidden relative">
+    <div className="card card-compact bg-base-100 w-70 shadow-xl relative cursor-pointer">
+      <figure className="h-48 w-full overflow-hidden relative">
         <VideoCardImage pictures={video.pictures} />
 
-        {video.duration && (
-          <div className="absolute bottom-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded">
-            {video.duration}
-          </div>
+        {video.links && (
+          <>
+            {video.links.some((link) => link.resolution === 5) && (
+              <span className="absolute bottom-2 left-2 bg-violet-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                4K
+              </span>
+            )}
+
+            {video.links.some((link) => link.resolution >= 1) &&
+              !video.links.some((link) => link.resolution === 5) && (
+                <span className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  HD
+                </span>
+              )}
+          </>
         )}
-      </div>
-      <div className="px-6 py-2 flex-1 flex flex-col">
-        <h2 className="text-black font-bold text-xl mb-1 overflow-hidden overflow-ellipsis line-clamp-2">
+
+        {video.duration && (
+          <span className="absolute bottom-2 right-2 bg-gray-800 text-white text-xs font-semibold px-2 py-1 rounded">
+            {video.duration}
+          </span>
+        )}
+      </figure>
+      <div className="card-body">
+        <h2
+          className="card-title overflow-hidden text-ellipsis"
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            height: "3rem",
+            lineHeight: "1.5rem",
+            textOverflow: "ellipsis",
+          }}
+        >
           {video.title}
         </h2>
 
-        <p className="text-gray-700 text-base flex-1 overflow-hidden overflow-ellipsis whitespace-nowrap mb-1">
-          {video.description?.trim()}
-        </p>
-
-        <div className="flex flex-wrap mt-1">
-          {video.tags.slice(0, 3).map((tag) => (
+        <div className="mt-2 flex flex-wrap min-h-[48px]">
+          {" "}
+          {categories.map((category, index) => (
             <Link
-              key={tag.id}
+              key={index}
+              href={`/video/categories/${category.value
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
+              className="badge badge-primary badge-outline mr-1 mb-1 cursor-pointer"
+            >
+              {category.value}
+            </Link>
+          ))}
+          {tags.map((tag, index) => (
+            <Link
+              key={index}
               href={`/video/tags/${tag.value
                 .toLowerCase()
                 .replace(/\s+/g, "-")}`}
+              className="badge badge-secondary badge-outline mr-1 mb-1 cursor-pointer"
             >
-              <span className="inline-block bg-blue-200 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full mr-2 mb-1 cursor-pointer">
-                {tag.value}
-              </span>
+              {tag.value}
             </Link>
           ))}
+          {pornstars.map((pornstar, index) => (
+            <Link
+              key={index}
+              href={`/video/pornstars/${pornstar.value
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
+              className="badge badge-accent badge-outline mr-1 mb-1 cursor-pointer"
+            >
+              {pornstar.value}
+            </Link>
+          ))}
+        </div>
+
+        <div className="card-actions justify-end">
+          <button className="btn btn-primary">Buy Now</button>
         </div>
       </div>
     </div>

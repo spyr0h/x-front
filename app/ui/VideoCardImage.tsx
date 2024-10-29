@@ -3,6 +3,10 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
+type Picture = {
+  directUrl: string;
+};
+
 type VideoCardImageProps = {
   pictures: Picture[];
 };
@@ -28,9 +32,9 @@ export default function VideoCardImage({ pictures }: VideoCardImageProps) {
   }, [isHovered, imageUrls.length]);
 
   return (
-    <div>
+    <div className="w-full h-full relative">
       <div
-        className="w-full h-full bg-gray-300 flex items-center justify-center"
+        className="bg-gray-300 flex items-center justify-center h-full"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => {
           setIsHovered(false);
@@ -47,11 +51,23 @@ export default function VideoCardImage({ pictures }: VideoCardImageProps) {
             unoptimized
           />
         ) : (
-          <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+          <div className="w-full h-full flex items-center justify-center">
             <span className="text-gray-500">No Image Available</span>
           </div>
         )}
       </div>
+      {imageUrls.length > 1 && (
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+          {imageUrls.map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full ${
+                currentImageIndex === index ? "bg-white" : "bg-gray-600"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
