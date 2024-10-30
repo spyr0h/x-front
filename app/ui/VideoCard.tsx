@@ -1,5 +1,6 @@
 import React from "react";
 import VideoCardImage from "./VideoCardImage";
+import VideoCardHostContainer from "./VideoCardHostContainer";
 import Link from "next/link";
 
 type VideoCardProps = {
@@ -92,9 +93,7 @@ export default function VideoCard({ video }: VideoCardProps) {
           ))}
         </div>
 
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
-        </div>
+        <VideoCardHostContainer hostLinks={video.links} />
       </div>
     </div>
   );
