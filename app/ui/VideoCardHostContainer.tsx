@@ -1,11 +1,12 @@
 import React from "react";
+import VideoCardHostButton from "./VideoCardHostButton";
 
 type VideoCardHostContainerProps = {
   hostLinks: HostLink[];
 };
 
 type GroupedHostLinks = {
-  [key: number]: HostLink[];
+  [key: number | string]: HostLink[];
 };
 
 enum Host {
@@ -72,7 +73,9 @@ const groupHostLinks = (hostLinks: HostLink[]): GroupedHostLinks => {
   return limitedGroupedLinks;
 };
 
-export default function VideoCard({ hostLinks }: VideoCardHostContainerProps) {
+export default function VideoCardHostContainer({
+  hostLinks,
+}: VideoCardHostContainerProps) {
   const groupedLinks = groupHostLinks(hostLinks);
 
   const entries = Object.entries(groupedLinks);
@@ -83,19 +86,8 @@ export default function VideoCard({ hostLinks }: VideoCardHostContainerProps) {
 
   return (
     <div className="card-actions flex justify-between">
-      {entries.map(([key], index) => (
-        <button
-          key={key || index}
-          className={`btn overflow-hidden flex-[20%] grayscale hover:grayscale-0 transition-all duration-300 ${
-            key !== "" ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-          style={{
-            backgroundImage: key ? 'url("/images/k2s.png")' : "none",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            padding: "0",
-          }}
-        />
+      {entries.map(([key, hostLinks]) => (
+        <VideoCardHostButton key={key} hostKey={key} hostLinks={hostLinks} />
       ))}
     </div>
   );
