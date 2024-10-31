@@ -9,7 +9,7 @@ type Props = {
   };
 };
 
-/*const getData = cache(async (slug: string) => {
+const getData = cache(async (slug: string) => {
   const constructedUrl = `/video/${slug}`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
@@ -22,18 +22,25 @@ type Props = {
   });
 
   return res.json();
-});*/
+});
 
-/*export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await getData(`/video/${params.slug.join("/")}`);
   return {
     title: data.seoData.title,
     description: data.seoData.description,
   };
-}*/
+}
 
-export default async function Video({ params }: Props) {
-  //const data = await getData(`/video/${params.slug.join("/")}`);
+export default async function Videos({ params }: Props) {
+  const data = await getData(`/video/${params.slug.join("/")}`);
 
-  return <h1>{params.slug}</h1>;
+  return (
+    <SerpLayout
+      searchResult={data.searchResult}
+      seoData={data.seoData}
+      searchPaging={data.searchPaging}
+      linkboxes={data.linkboxes}
+    />
+  );
 }

@@ -19,18 +19,14 @@ export default function VideoCardClickableArea({
       .replace(/\s+/g, "-"); // Remplace les espaces par des tirets
   };
 
-  const handleCardClick = () => {
-    const urlPart = generateUrlPart(title);
-    const videoUrl = `/video/${id}-${urlPart}`;
-    alert(`URL de la vidéo : ${videoUrl}`);
-  };
+  const url = `/video/${id}-${generateUrlPart(title)}`;
 
   return (
-    <div
+    <a
       className="absolute w-full h-full z-10"
-      onClick={handleCardClick}
+      href={url}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-    ></div>
+    ></a>
   );
 }
