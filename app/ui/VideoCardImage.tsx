@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useHover } from "../context/HoverContext";
 
 type Picture = {
   directUrl: string;
@@ -13,7 +14,7 @@ type VideoCardImageProps = {
 
 export default function VideoCardImage({ pictures }: VideoCardImageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const { isHovered } = useHover();
 
   const imageUrls = pictures.map((picture) => picture.directUrl).reverse();
 
@@ -33,14 +34,7 @@ export default function VideoCardImage({ pictures }: VideoCardImageProps) {
 
   return (
     <div className="w-full h-full relative">
-      <div
-        className="bg-gray-300 flex items-center justify-center h-full"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => {
-          setIsHovered(false);
-          setCurrentImageIndex(0);
-        }}
-      >
+      <div className="bg-gray-300 flex items-center justify-center h-full">
         {imageUrls.length > 0 ? (
           <Image
             className="w-full h-full object-cover"
