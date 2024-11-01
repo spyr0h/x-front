@@ -19,7 +19,7 @@ function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
 
 export default function Header({ linkboxes }: HeaderProps) {
   const toPrintLinkboxes = linkboxes.linkboxes.map((linkbox, i) => (
-    <li key={i} className="dropdown dropdown-hover position-unset">
+    <li key={i} className="dropdown dropdown-hover position-unset z-40">
       <a tabIndex={0} className="cursor-pointer">
         {linkbox.title}
       </a>

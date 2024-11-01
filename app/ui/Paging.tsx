@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 type PagingProps = {
   paging: Paging;
@@ -10,16 +11,16 @@ export default function Paging({ paging }: PagingProps) {
   return (
     <div className="flex items-center justify-center mb-10">
       <div className="join">
-        <a
+        <Link
           className={
             "join-item btn btn-md" + (previousPage ? "" : " btn-disabled")
           }
-          href={previousPage ? previousPage.url : undefined}
+          href={previousPage ? previousPage.url : ""}
         >
           «
-        </a>
+        </Link>
         {pages.map((page, i) => (
-          <a
+          <Link
             key={i}
             className={
               "join-item btn btn-md" + (page.selected ? " btn-active" : "")
@@ -27,14 +28,14 @@ export default function Paging({ paging }: PagingProps) {
             href={page.url}
           >
             {page.number}
-          </a>
+          </Link>
         ))}
-        <a
+        <Link
           className={"join-item btn btn-md" + (nextPage ? "" : " btn-disabled")}
-          href={nextPage ? nextPage.url : undefined}
+          href={nextPage ? nextPage.url : ""}
         >
           »
-        </a>
+        </Link>
       </div>
     </div>
   );

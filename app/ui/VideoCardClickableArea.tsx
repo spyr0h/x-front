@@ -19,7 +19,7 @@ export default function VideoCardClickableArea({
       .replace(/\s+/g, "-"); // Remplace les espaces par des tirets
   };
 
-  const url = `/video/${id}-${generateUrlPart(title)}`;
+  const url = `/videos/${id}-${generateUrlPart(title)}`;
 
   return (
     <a

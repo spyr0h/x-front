@@ -10,7 +10,7 @@ type Props = {
 };
 
 const getData = cache(async (slug: string) => {
-  const constructedUrl = `/video/${slug}`;
+  const constructedUrl = `/videos/${slug}`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
     method: "POST",
@@ -25,7 +25,7 @@ const getData = cache(async (slug: string) => {
 });
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const data = await getData(`/video/${params.slug.join("/")}`);
+  const data = await getData(`/videos/${params.slug.join("/")}`);
   return {
     title: data.seoData.title,
     description: data.seoData.description,
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Videos({ params }: Props) {
-  const data = await getData(`/video/${params.slug.join("/")}`);
+  const data = await getData(`/videos/${params.slug.join("/")}`);
 
   return (
     <SerpLayout

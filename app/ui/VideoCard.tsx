@@ -62,7 +62,7 @@ export default function VideoCard({ video }: VideoCardProps) {
             {categories.map((category, index) => (
               <Link
                 key={index}
-                href={`/video/categories/${category.value
+                href={`/videos/categories/${category.value
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
                 className="badge badge-primary badge-outline mr-1 mb-1 cursor-pointer"
@@ -73,7 +73,7 @@ export default function VideoCard({ video }: VideoCardProps) {
             {tags.map((tag, index) => (
               <Link
                 key={index}
-                href={`/video/tags/${tag.value
+                href={`/videos/tags/${tag.value
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
                 className="badge badge-secondary badge-outline mr-1 mb-1 cursor-pointer"
@@ -84,7 +84,7 @@ export default function VideoCard({ video }: VideoCardProps) {
             {pornstars.map((pornstar, index) => (
               <Link
                 key={index}
-                href={`/video/pornstars/${pornstar.value
+                href={`/videos/pornstars/${pornstar.value
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
                 className="badge badge-accent badge-outline mr-1 mb-1 cursor-pointer"
