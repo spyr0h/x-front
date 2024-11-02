@@ -13,7 +13,7 @@ export default function VideoCard({ video }: VideoCardProps) {
   const pornstars = video.pornstars.slice(0, 2);
 
   return (
-    <div className="card card-compact bg-base-100 w-70 shadow-xl relative cursor-pointer">
+    <div className="card card-compact bg-base-100 w-70 shadow-xl relative cursor-pointer overflow-hidden">
       <HoverProvider>
         <VideoCardClickableArea id={video.id} title={video.title} />
         <figure className="h-48 w-full overflow-hidden relative">

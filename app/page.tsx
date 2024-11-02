@@ -14,7 +14,7 @@ const getData = cache(async () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ url: constructedUrl }),
-    next: { revalidate: 1 },
+    next: { revalidate: 0 },
   });
 
   return res.json();

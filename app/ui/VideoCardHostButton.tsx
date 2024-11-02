@@ -66,7 +66,7 @@ export default function VideoCardHostButton({
 
   return (
     <button
-      className={`btn overflow-hidden flex-[20%] grayscale hover:grayscale-0 transition-all duration-300 z-20 ${
+      className={`btn overflow-hidden w-full grayscale hover:grayscale-0 transition-all duration-300 z-20 ${
         hostKey !== undefined && hostKey !== ""
           ? "opacity-100"
           : "opacity-0 pointer-events-none"

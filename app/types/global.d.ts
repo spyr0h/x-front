@@ -94,3 +94,7 @@ type SeoData = {
   canonical: string;
   isIndexed: boolean;
 };
+
+type GroupedHostLinks = {
+  [key: number | string]: HostLink[];
+};

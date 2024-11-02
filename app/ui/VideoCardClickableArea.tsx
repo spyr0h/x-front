@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useHover } from "../context/HoverContext";
 
 type VideoCardClickableAreaProps = { id: number; title: string };
@@ -19,14 +20,14 @@ export default function VideoCardClickableArea({
       .replace(/\s+/g, "-"); // Remplace les espaces par des tirets
   };
 
-  const url = `/videos/${id}-${generateUrlPart(title)}`;
+  const url = `/video/${id}-${generateUrlPart(title)}`;
 
   return (
-    <a
+    <Link
       className="absolute w-full h-full z-10"
       href={url}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-    ></a>
+    ></Link>
   );
 }
