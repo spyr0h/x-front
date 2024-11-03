@@ -5,18 +5,20 @@ import VideoCardClickableArea from "./VideoCardClickableArea";
 import { HoverProvider } from "../context/HoverContext";
 import Link from "next/link";
 
-type VideoCardProps = { video: Video };
+type VideoCardProps = { video: Video; host: boolean };
 
-export default function VideoCard({ video }: VideoCardProps) {
+export default function VideoCard({ video, host }: VideoCardProps) {
   const categories = video.categories.slice(0, 3);
   const tags = video.tags.slice(0, 2);
   const pornstars = video.pornstars.slice(0, 2);
 
+  var height = host ? "h-48" : "h-40";
+
   return (
-    <div className="card card-compact bg-base-100 w-70 shadow-xl relative cursor-pointer overflow-hidden">
+    <div className="card card-compact bg-base-100 shadow-xl relative cursor-pointer overflow-hidden">
       <HoverProvider>
         <VideoCardClickableArea id={video.id} title={video.title} />
-        <figure className="h-48 w-full overflow-hidden relative">
+        <figure className={`${height} w-full overflow-hidden relative`}>
           <VideoCardImage pictures={video.pictures} />
 
           {video.links && (
@@ -58,43 +60,45 @@ export default function VideoCard({ video }: VideoCardProps) {
             {video.title}
           </h2>
 
-          <div className="mt-2 flex flex-wrap min-h-[48px] z-20">
-            {categories.map((category, index) => (
-              <Link
-                key={index}
-                href={`/videos/categories/${category.value
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
-                className="badge badge-primary badge-outline mr-1 mb-1 cursor-pointer"
-              >
-                {category.value}
-              </Link>
-            ))}
-            {tags.map((tag, index) => (
-              <Link
-                key={index}
-                href={`/videos/tags/${tag.value
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
-                className="badge badge-secondary badge-outline mr-1 mb-1 cursor-pointer"
-              >
-                {tag.value}
-              </Link>
-            ))}
-            {pornstars.map((pornstar, index) => (
-              <Link
-                key={index}
-                href={`/videos/pornstars/${pornstar.value
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
-                className="badge badge-accent badge-outline mr-1 mb-1 cursor-pointer"
-              >
-                {pornstar.value}
-              </Link>
-            ))}
-          </div>
+          {host && (
+            <div className="mt-2 flex flex-wrap min-h-[48px] z-20">
+              {categories.map((category, index) => (
+                <Link
+                  key={index}
+                  href={`/videos/categories/${category.value
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                  className="badge badge-primary badge-outline mr-1 mb-1 cursor-pointer"
+                >
+                  {category.value}
+                </Link>
+              ))}
+              {tags.map((tag, index) => (
+                <Link
+                  key={index}
+                  href={`/videos/tags/${tag.value
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                  className="badge badge-secondary badge-outline mr-1 mb-1 cursor-pointer"
+                >
+                  {tag.value}
+                </Link>
+              ))}
+              {pornstars.map((pornstar, index) => (
+                <Link
+                  key={index}
+                  href={`/videos/pornstars/${pornstar.value
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                  className="badge badge-accent badge-outline mr-1 mb-1 cursor-pointer"
+                >
+                  {pornstar.value}
+                </Link>
+              ))}
+            </div>
+          )}
 
-          <VideoCardHostContainer hostLinks={video.links} />
+          {host && <VideoCardHostContainer hostLinks={video.links} />}
         </div>
       </HoverProvider>
     </div>

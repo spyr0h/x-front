@@ -28,7 +28,7 @@ export default function SerpLayout({
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {searchResult.videos.map((video: Video) => (
-              <VideoCard key={video.id} video={video} />
+              <VideoCard key={video.id} video={video} host={true} />
             ))}
           </div>
         </div>

@@ -98,3 +98,10 @@ type SeoData = {
 type GroupedHostLinks = {
   [key: number | string]: HostLink[];
 };
+
+type SuggestionBox = {
+  title: string;
+  order: number;
+  category: number;
+  suggestedVideos: Video[];
+};

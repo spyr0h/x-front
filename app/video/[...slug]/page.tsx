@@ -7,6 +7,7 @@ import Footer from "@/app/ui/Footer";
 import VideoDetailImage from "@/app/ui/VideoDetailImage";
 import VideoDetailDescription from "@/app/ui/VideoDetailDescription";
 import VideoCardHostButton from "@/app/ui/VideoCardHostButton";
+import SuggestionContainer from "@/app/ui/SuggestionContainer";
 import { groupHostLinks } from "@/app/utils/helpers";
 
 type Props = {
@@ -59,14 +60,14 @@ export default async function Video({ params }: Props) {
       <Header linkboxes={data.linkboxes} />
       <div className="flex-grow">
         <div className="container mx-auto px-4 py-8">
-          <div className="container w-1/2">
+          <div className="container w-3/4">
             <h1 className="text-3xl font-bold mb-8 text-left">
               {data.seoData.headline}
             </h1>
             <iframe
               src={preview}
               allowFullScreen={true}
-              className="w-full aspect-video"
+              className="w-3/4 aspect-video"
             />
             <div className="mt-5 flex flex-wrap z-20">
               {data.video.categories.map(
@@ -159,6 +160,8 @@ export default async function Video({ params }: Props) {
                 ))
               )}
             </div>
+            <h2 className="text-xl font-semibold mt-5 mb-2">You may like...</h2>
+            <SuggestionContainer suggestionBoxes={data.suggestionBoxes} />
           </div>
         </div>
       </div>
