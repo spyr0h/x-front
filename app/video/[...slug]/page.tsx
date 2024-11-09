@@ -10,6 +10,27 @@ import VideoCardHostButton from "@/app/ui/VideoCardHostButton";
 import SuggestionContainer from "@/app/ui/SuggestionContainer";
 import { groupHostLinks } from "@/app/utils/helpers";
 
+const resolutionMap = ["SD", "HD", "FHD", "QHD", "2K", "4K", "8K"];
+const formatMap = ["mp4", "rar", "avi"];
+
+const getResolutionText = (resolution: number | undefined): string => {
+  return resolution !== undefined &&
+    resolution >= 0 &&
+    resolution < resolutionMap.length
+    ? resolutionMap[resolution]
+    : "";
+};
+
+const getFormatText = (format: number | undefined): string => {
+  return format !== undefined && format >= 0 && format < formatMap.length
+    ? formatMap[format]
+    : "";
+};
+
+const formatSize = (size: number): string => {
+  return size >= 1000 ? `${(size / 1000).toFixed(2)} GB` : `${size} MB`;
+};
+
 type Props = {
   params: {
     slug: string[];
@@ -60,14 +81,14 @@ export default async function Video({ params }: Props) {
       <Header linkboxes={data.linkboxes} />
       <div className="flex-grow">
         <div className="container mx-auto px-4 py-8">
-          <div className="container w-3/4">
+          <div className="container w-2/4">
             <h1 className="text-3xl font-bold mb-8 text-left">
               {data.seoData.headline}
             </h1>
             <iframe
               src={preview}
               allowFullScreen={true}
-              className="w-3/4 aspect-video"
+              className="w-full aspect-video"
             />
             <div className="mt-5 flex flex-wrap z-20">
               {data.video.categories.map(
@@ -142,12 +163,12 @@ export default async function Video({ params }: Props) {
                   >
                     <div className="flex-1" style={{ flex: "0 0 40%" }}>
                       <span className="font-semibold">
-                        {hostLink.resolution}
+                        {getResolutionText(hostLink.resolution)}{" "}
                       </span>{" "}
-                      - {hostLink.format}
+                      - {getFormatText(hostLink.format)}{" "}
                     </div>
                     <div className="flex-1" style={{ flex: "0 0 40%" }}>
-                      {hostLink.size} • {hostLink.host}
+                      {formatSize(hostLink.size)}
                     </div>
                     <div className="flex-1" style={{ flex: "0 0 20%" }}>
                       <VideoCardHostButton

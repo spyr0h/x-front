@@ -17,3 +17,19 @@ export enum Host {
   ONEFICHIER,
   MOVED,
 }
+
+export enum Resolution {
+  SD,
+  HD,
+  FHD,
+  QHD,
+  TWOK,
+  FOURK,
+  EIGHTK,
+}
+
+export enum Format {
+  MPFOUR,
+  RAR,
+  AVI,
+}
