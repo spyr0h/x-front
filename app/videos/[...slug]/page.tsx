@@ -7,10 +7,11 @@ type Props = {
   params: {
     slug: string[];
   };
+  searchParams: { terms?: string; page?: number };
 };
 
 const getData = cache(async (slug: string) => {
-  const constructedUrl = `/videos/${slug}`;
+  const constructedUrl = `${slug}`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
     method: "POST",
@@ -24,16 +25,40 @@ const getData = cache(async (slug: string) => {
   return res.json();
 });
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const data = await getData(`/videos/${params.slug.join("/")}`);
+const generateUrl = ({ params, searchParams }: Props): string => {
+  if (searchParams.terms === undefined) {
+    return `/videos/${params.slug.join("/")}`;
+  }
+
+  const technicalUrl = `/videos/search?terms=${searchParams.terms.replace(
+    " ",
+    "+"
+  )}`;
+
+  if (searchParams.page !== undefined) {
+    return `${technicalUrl}&page=${searchParams.page}`;
+  }
+
+  return technicalUrl;
+};
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
+  const url = generateUrl({ params, searchParams });
+
+  const data = await getData(`${url}`);
   return {
     title: data.seoData.title,
     description: data.seoData.description,
   };
 }
 
-export default async function Videos({ params }: Props) {
-  const data = await getData(`/videos/${params.slug.join("/")}`);
+export default async function Videos({ params, searchParams }: Props) {
+  const url = generateUrl({ params, searchParams });
+
+  const data = await getData(url);
 
   return (
     <SerpLayout

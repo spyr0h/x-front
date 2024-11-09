@@ -2,7 +2,13 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { TagIcon, UserIcon, HashtagIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import {
+  TagIcon,
+  UserIcon,
+  HashtagIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -11,6 +17,7 @@ export default function SearchBar() {
   }>({ suggestions: [] });
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (searchTerm) {
@@ -55,6 +62,20 @@ export default function SearchBar() {
     };
   }, []);
 
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      router.push(`/videos/search?terms=${encodeURIComponent(searchTerm)}`);
+      setSearchTerm("");
+      setIsDropdownOpen(false);
+    }
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   const renderIcon = (type: number) => {
     switch (type) {
       case 0:
@@ -70,14 +91,22 @@ export default function SearchBar() {
 
   return (
     <div className="relative w-full max-w-md" ref={dropdownRef}>
-      <div className="form-control">
+      <div className="flex items-center">
         <input
           type="text"
           placeholder="Search..."
-          className="input input-bordered"
+          className="input input-bordered flex-grow"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={handleKeyPress}
         />
+        <button
+          onClick={handleSearch}
+          className="btn btn-square btn-primary ml-2"
+          aria-label="Search"
+        >
+          <MagnifyingGlassIcon className="h-5 w-5" />
+        </button>
       </div>
 
       {isDropdownOpen && (
