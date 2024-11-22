@@ -60,13 +60,10 @@ export default function Header({ linkboxes }: HeaderProps) {
       </div>
       <div className="navbar-center">
         <ul className="menu menu-horizontal px-100">
-          <li>
-            <a>Item 1</a>
+          <li className="dropdown dropdown-hover position-unset z-40">
+            <a href="/videos/best">Best of the week</a>
           </li>
           {toPrintLinkboxes}
-          <li>
-            <a>Item 3</a>
-          </li>
         </ul>
       </div>
       <div className="navbar-end">
