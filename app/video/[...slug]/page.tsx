@@ -63,6 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Video({ params }: Props) {
   const data = await getData(`/video/${params.slug.join("/")}`);
 
+  console.error(data.suggestionBoxes[0]);
+
   const foundKeepTwoShareLink = data.video.links.find(
     (link: HostLink) => link.host === 7
   );
@@ -71,7 +73,7 @@ export default async function Video({ params }: Props) {
 
   if (foundKeepTwoShareLink) {
     const link = foundKeepTwoShareLink.url;
-    preview = `https://k2s.cc/preview/${link.split("/").slice(-2, -1)[0]}"`;
+    preview = `https://k2s.cc/preview/${link.split("/").pop()}"`;
   }
 
   const groupedLinks = groupHostLinks(data.video.links);

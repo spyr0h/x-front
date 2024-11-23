@@ -33,6 +33,11 @@ export default function Header({ linkboxes }: HeaderProps) {
                     <li key={`${linkbox.category}${j}`}>
                       <Link href={link.url} passHref>
                         {link.linkText}
+                        {link.recentCount !== 0 && (
+                          <div className="badge badge-error badge-s">
+                            +{link.recentCount}
+                          </div>
+                        )}
                       </Link>
                     </li>
                   ))}

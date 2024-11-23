@@ -21,6 +21,12 @@ export default function VideoCard({ video, host }: VideoCardProps) {
         <figure className={`${height} w-full overflow-hidden relative`}>
           <VideoCardImage pictures={video.pictures} />
 
+          {video.new && (
+            <span className="absolute top-2 right-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded">
+              New
+            </span>
+          )}
+
           {video.links && (
             <>
               {video.links.some((link) => link.resolution === 5) && (

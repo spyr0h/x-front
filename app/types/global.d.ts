@@ -38,6 +38,7 @@ type Video = {
   description: string;
   duration: number;
   year: number;
+  new: boolean;
   tags: Tag[];
   categories: Category[];
   pornstars: Pornstar[];
@@ -68,6 +69,7 @@ type LinkBoxLink = {
   linkText: string;
   order: number;
   count: number;
+  recentCount: number;
 };
 
 type LinkBox = {
@@ -93,6 +95,7 @@ type SeoData = {
   description: string;
   canonical: string;
   isIndexed: boolean;
+  recentCount: number;
 };
 
 type GroupedHostLinks = {
