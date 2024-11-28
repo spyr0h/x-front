@@ -11,6 +11,7 @@ const getData = cache(async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
     },
     body: JSON.stringify({ url: constructedUrl }),
     next: { revalidate: 0 },
