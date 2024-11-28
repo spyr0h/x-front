@@ -1,6 +1,7 @@
 import React from "react";
 import { cache } from "react";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import SerpLayout from "@/app/ui/SerpLayout";
 
 type Props = {
@@ -21,6 +22,10 @@ const getData = cache(async (slug: string) => {
     body: JSON.stringify({ url: constructedUrl }),
     next: { revalidate: 0 },
   });
+
+  if (!res.ok) {
+    notFound();
+  }
 
   return res.json();
 });
@@ -49,6 +54,7 @@ export async function generateMetadata({
   const url = generateUrl({ params, searchParams });
 
   const data = await getData(`${url}`);
+
   return {
     title: data.seoData.title,
     description: data.seoData.description,
