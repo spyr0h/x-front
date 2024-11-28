@@ -35,7 +35,7 @@ export default function VideoDetailDescription({
               onClick={toggleExpand}
               className="mt-2 text-blue-500 hover:underline"
             >
-              Lire la suite
+              Read more...
             </button>
           )}
           {isExpanded && (
@@ -43,7 +43,7 @@ export default function VideoDetailDescription({
               onClick={toggleExpand}
               className="mt-2 text-blue-500 hover:underline"
             >
-              Masquer
+              Hide
             </button>
           )}
         </div>

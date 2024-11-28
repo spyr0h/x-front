@@ -5,7 +5,6 @@ import Head from "next/head";
 import SerpLayout from "@/app/ui/SerpLayout";
 
 const getData = cache(async () => {
-  console.log("CALAMARD");
   const constructedUrl = `/videos/all`;
 
   const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
