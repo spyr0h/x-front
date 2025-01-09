@@ -1,5 +1,4 @@
 import React from "react";
-import VideoCard from "./VideoCard";
 import VideoCarousel from "./VideoCarousel";
 
 type SuggestionContainerProps = {

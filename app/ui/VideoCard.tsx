@@ -12,7 +12,7 @@ export default function VideoCard({ video, host }: VideoCardProps) {
   const tags = video.tags.slice(0, 2);
   const pornstars = video.pornstars.slice(0, 2);
 
-  var height = host ? "h-48" : "h-40";
+  const height = host ? "h-48" : "h-40";
 
   return (
     <div className="card card-compact bg-base-100 shadow-xl relative cursor-pointer overflow-hidden">
