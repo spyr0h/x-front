@@ -4,7 +4,7 @@ import NotFoundLayout from "@/app/ui/NotFoundLayout";
 const getData = async () => {
   const constructedUrl = `/videos/all`;
 
-  const res = await fetch("http://139.99.61.232:8080/api/page/search/url", {
+  const res = await fetch("https://x-api.ovh/api/page/search/url", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

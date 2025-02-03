@@ -40,7 +40,7 @@ type Props = {
 const getData = cache(async (slug: string) => {
   const constructedUrl = `/video/${slug}`;
 
-  const res = await fetch("http://139.99.61.232:8080/api/page/detail/url", {
+  const res = await fetch("https://x-api.ovh/api/page/detail/url", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

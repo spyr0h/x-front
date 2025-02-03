@@ -23,7 +23,7 @@ export default function SearchBar() {
     if (searchTerm) {
       const delayDebounceFn = setTimeout(async () => {
         const response = await fetch(
-          `http://139.99.61.232:8080/api/full/autocomplete`,
+          `https://x-api.ovh/api/full/autocomplete`,
           {
             method: "POST",
             headers: {
