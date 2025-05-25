@@ -1,11 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
-import Image from "next/image";
+import localFont from "next/font/local";
 
 type HeaderProps = {
   linkboxes: LinkBoxes;
 };
+
+const newake = localFont({
+  src: "../fonts/newake.otf",
+  variable: "--font-newake",
+  weight: "100 900",
+});
 
 function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
   return array.reduce((result: T[][], item: T, index: number) => {
@@ -19,12 +25,22 @@ function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
 
 export default function Header({ linkboxes }: HeaderProps) {
   const toPrintLinkboxes = linkboxes.linkboxes.map((linkbox, i) => (
-    <li key={i} className="dropdown dropdown-hover position-unset z-40">
-      <a tabIndex={0} className="cursor-pointer">
+    <li
+      key={i}
+      className="dropdown dropdown-hover position-unset z-40 relative h-full"
+    >
+      <a
+        tabIndex={0}
+        className="cursor-pointer relative flex items-center h-full px-1
+          after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full
+          after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100
+          after:transition-transform after:duration-200 after:origin-left"
+      >
         {linkbox.title}
       </a>
-      <div className="absolute bg-transparent left-0 w-full rounded-none dropdown-no-anim dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent focus:bg-transparent flex pt-3">
-        <div className="p-0 m-0 bg-base-100 flex w-full flex pt-3">
+
+      <div className="absolute bg-transparent left-0 w-full rounded-none dropdown-no-anim dropdown-content z-10 p-0 m-0 hover:bg-transparent active:bg-transparent focus:bg-transparent flex">
+        <div className="p-0 m-0 bg-[#0d0d0b] flex w-full flex pt-3">
           <ul className="menu xl:menu-horizontal lg:min-w-max m-0">
             {separateIntoChunks(linkbox.links, 4).map((links, j) => (
               <li key={j}>
@@ -51,28 +67,46 @@ export default function Header({ linkboxes }: HeaderProps) {
   ));
 
   return (
-    <div className="navbar bg-base-100 px-10 w-full">
-      <div className="navbar-start">
-        <Link href="/" passHref>
-          <Image
-            src="https://www.shareicon.net/data/512x512/2015/09/18/642672_xxx_512x512.png"
-            alt="Logo"
-            className="h-10 cursor-pointer"
-            width={40}
-            height={40}
-          />
-        </Link>
+    <div className="w-full">
+      {/* Ligne 1 : Logo + SearchBar */}
+      <div className="flex items-center justify-between bg-[#080908] px-10 py-4 h-24">
+        <div className="flex items-center">
+          <span
+            className={`${newake.className} outline text-5xl tracking-wide`}
+          >
+            KIN
+            <span className="neon-outline">
+              <span className="inline-block transform scale-x-[-1]">K</span>K
+            </span>
+            ORNER
+          </span>
+        </div>
+        <div className="w-full max-w-md">
+          <SearchBar />
+        </div>
       </div>
-      <div className="navbar-center">
-        <ul className="menu menu-horizontal px-100">
-          <li className="dropdown dropdown-hover position-unset z-40">
-            <a href="/videos/best">Best of the week</a>
+
+      {/* Ligne 2 : Menu */}
+      <div className="bg-[#0d0d0b] px-10 h-14 flex items-center border-y-2 border-[#1f1e1d] relative">
+        <ul className="flex gap-6 text-white h-full">
+          <li className="relative h-full">
+            <a
+              href="/"
+              className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
+            >
+              Home
+            </a>
+          </li>
+          <li className="relative h-full">
+            <a
+              href="/videos/best"
+              className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
+            >
+              Best of the week
+            </a>
           </li>
           {toPrintLinkboxes}
         </ul>
-      </div>
-      <div className="navbar-end">
-        <SearchBar />
       </div>
     </div>
   );

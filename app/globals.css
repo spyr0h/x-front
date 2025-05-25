@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "newake";
+  src: url("/fonts/newake.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -33,4 +40,14 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 0.8px #ffddf0; /* rose plus clair */
+}
+
+.neon-outline {
+  color: transparent;
+  filter: drop-shadow(0 0 2px #be3155) drop-shadow(0 0 8px #be3155);
 }

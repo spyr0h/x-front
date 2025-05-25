@@ -97,17 +97,17 @@ export default function SearchBar() {
         <input
           type="text"
           placeholder="Search..."
-          className="input input-bordered flex-grow"
+          className="input input-bordered flex-grow bg-[#0d0d0b] border-[#1f1e1d] border-y-2"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={handleKeyPress}
         />
         <button
           onClick={handleSearch}
-          className="btn btn-square btn-primary ml-2"
+          className="btn bg-[#0d0d0b] border-[#1f1e1d] border-y-2 btn-square btn-primary ml-2"
           aria-label="Search"
         >
-          <MagnifyingGlassIcon className="h-5 w-5" />
+          <MagnifyingGlassIcon className="text-gray-500 h-5 w-5" />
         </button>
       </div>
 
