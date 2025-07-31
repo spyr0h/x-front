@@ -52,11 +52,15 @@ body {
 .outline {
   color: transparent;
   -webkit-text-stroke: 0.8px #ffddf0; /* rose plus clair */
+  transition: all 0.3s ease;
 }
 
-.neon-outline {
+.neon-outline,
+.group:hover .group-hover\:neon-outline {
   color: transparent;
+  -webkit-text-stroke: 0.8px #ffddf0;
   filter: drop-shadow(0 0 2px #be3155) drop-shadow(0 0 8px #be3155);
+  transition: all 0.3s ease;
 }
 
 .text-5xl {

@@ -76,12 +76,14 @@ export default function Header({ linkboxes }: HeaderProps) {
       {/* Ligne 1 : Logo + SearchBar */}
       <div className="bg-[#080908] py-4 h-24">
         <div className="container mx-auto px-4 flex items-center justify-between h-full">
-          <div className={`${newake.className} outline text-5xl h-full flex`}>
-            KIN
+          <div
+            className={`${newake.className} text-5xl h-full flex group cursor-pointer`}
+          >
+            <span className="outline group-hover:neon-outline">KIN</span>
             <span className="neon-outline">
               <span className="inline-block transform scale-x-[-1]">K</span>K
             </span>
-            ORNER
+            <span className="outline group-hover:neon-outline">ORNER</span>
           </div>
           <div className="w-full max-w-md">
             <SearchBar />
