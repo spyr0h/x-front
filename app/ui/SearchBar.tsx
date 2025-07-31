@@ -9,6 +9,12 @@ import {
   HashtagIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import localFont from "next/font/local";
+
+const inter = localFont({
+  src: "../fonts/inter.ttf",
+  variable: "--font-inter",
+});
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -96,28 +102,28 @@ export default function SearchBar() {
       <div className="flex items-center">
         <input
           type="text"
-          placeholder="Search..."
-          className="input input-bordered flex-grow bg-[#0d0d0b] border-[#1f1e1d] border-y-2"
+          placeholder="Search for videos..."
+          className={`input input-bordered flex-grow bg-[#0d0d0b] border-[#1f1e1d] border-2 hover:border-[#fb7ec3] focus:outline-none focus:border-[#fb7ec3] transition-colors duration-200 text-white placeholder-gray-400 text-sm ${inter.className}`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={handleKeyPress}
         />
         <button
           onClick={handleSearch}
-          className="btn bg-[#0d0d0b] border-[#1f1e1d] border-y-2 btn-square btn-primary ml-2"
+          className="btn bg-[#0d0d0b] border-[#1f1e1d] border-2 hover:bg-[#fb7ec3] hover:border-[#fb7ec3] active:bg-[#fb7ec3] focus:outline-none btn-square ml-2"
           aria-label="Search"
         >
-          <MagnifyingGlassIcon className="text-gray-500 h-5 w-5" />
+          <MagnifyingGlassIcon className="text-gray-300 hover:text-white h-5 w-5" />
         </button>
       </div>
 
       {isDropdownOpen && (
-        <ul className="absolute z-10 left-0 right-0 bg-base-100 text-base-content rounded-lg shadow-lg mt-1">
+        <ul className="absolute z-10 left-0 right-0 bg-[#0d0d0b] border border-[#1f1e1d] rounded-lg shadow-lg mt-1 overflow-hidden">
           {searchResults.suggestions.length ? (
             searchResults.suggestions.map((result: Suggestion) => (
               <li
                 key={result.value}
-                className="hover:bg-gray-200 cursor-pointer"
+                className="hover:bg-[#fb7ec3] hover:text-black cursor-pointer transition-colors duration-200"
               >
                 <Link
                   href={result.searchUrl}
@@ -125,7 +131,7 @@ export default function SearchBar() {
                     setIsDropdownOpen(false);
                     setSearchTerm("");
                   }}
-                  className="block px-4 py-2 flex items-center"
+                  className="block px-4 py-2 flex items-center text-white"
                 >
                   {renderIcon(result.type)}
                   {result.value}
@@ -133,7 +139,7 @@ export default function SearchBar() {
               </li>
             ))
           ) : (
-            <li className="px-4 py-2 text-gray-500">No results found</li>
+            <li className="px-4 py-2 text-gray-400">No results found</li>
           )}
         </ul>
       )}

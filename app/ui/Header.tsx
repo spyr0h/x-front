@@ -13,6 +13,11 @@ const newake = localFont({
   weight: "100 900",
 });
 
+const inter = localFont({
+  src: "../fonts/inter.ttf",
+  variable: "--font-inter",
+});
+
 function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
   return array.reduce((result: T[][], item: T, index: number) => {
     if (index % chunkSize === 0) {
@@ -70,16 +75,12 @@ export default function Header({ linkboxes }: HeaderProps) {
     <div className="w-full">
       {/* Ligne 1 : Logo + SearchBar */}
       <div className="flex items-center justify-between bg-[#080908] px-10 py-4 h-24">
-        <div className="flex items-center">
-          <span
-            className={`${newake.className} outline text-5xl tracking-wide`}
-          >
-            KIN
-            <span className="neon-outline">
-              <span className="inline-block transform scale-x-[-1]">K</span>K
-            </span>
-            ORNER
+        <div className={`${newake.className} outline text-5xl h-full flex`}>
+          KIN
+          <span className="neon-outline">
+            <span className="inline-block transform scale-x-[-1]">K</span>K
           </span>
+          ORNER
         </div>
         <div className="w-full max-w-md">
           <SearchBar />
@@ -88,7 +89,9 @@ export default function Header({ linkboxes }: HeaderProps) {
 
       {/* Ligne 2 : Menu */}
       <div className="bg-[#0d0d0b] px-10 h-14 flex items-center border-y-2 border-[#1f1e1d] relative">
-        <ul className="flex gap-6 text-white h-full">
+        <ul
+          className={`flex gap-6 text-white h-full text-sm ${inter.className}`}
+        >
           <li className="relative h-full">
             <a
               href="/"

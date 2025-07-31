@@ -9,6 +9,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -50,4 +57,8 @@ body {
 .neon-outline {
   color: transparent;
   filter: drop-shadow(0 0 2px #be3155) drop-shadow(0 0 8px #be3155);
+}
+
+.text-5xl {
+  line-height: unset !important;
 }

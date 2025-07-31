@@ -1,7 +1,6 @@
 import React from "react";
 import { cache } from "react";
 import { Metadata } from "next";
-import Head from "next/head";
 import SerpLayout from "@/app/ui/SerpLayout";
 
 const getData = cache(async () => {
@@ -33,10 +32,6 @@ export default async function Categories() {
 
   return (
     <div>
-      <Head>
-        <title>cacahouete</title>
-        <meta name="description" content="caca" />
-      </Head>
       <SerpLayout
         searchResult={data.searchResult}
         seoData={data.seoData}
