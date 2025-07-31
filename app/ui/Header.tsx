@@ -74,42 +74,46 @@ export default function Header({ linkboxes }: HeaderProps) {
   return (
     <div className="w-full">
       {/* Ligne 1 : Logo + SearchBar */}
-      <div className="flex items-center justify-between bg-[#080908] px-10 py-4 h-24">
-        <div className={`${newake.className} outline text-5xl h-full flex`}>
-          KIN
-          <span className="neon-outline">
-            <span className="inline-block transform scale-x-[-1]">K</span>K
-          </span>
-          ORNER
-        </div>
-        <div className="w-full max-w-md">
-          <SearchBar />
+      <div className="bg-[#080908] py-4 h-24">
+        <div className="container mx-auto px-4 flex items-center justify-between h-full">
+          <div className={`${newake.className} outline text-5xl h-full flex`}>
+            KIN
+            <span className="neon-outline">
+              <span className="inline-block transform scale-x-[-1]">K</span>K
+            </span>
+            ORNER
+          </div>
+          <div className="w-full max-w-md">
+            <SearchBar />
+          </div>
         </div>
       </div>
 
       {/* Ligne 2 : Menu */}
-      <div className="bg-[#0d0d0b] px-10 h-14 flex items-center border-y-2 border-[#1f1e1d] relative">
-        <ul
-          className={`flex gap-6 text-white h-full text-sm ${inter.className}`}
-        >
-          <li className="relative h-full">
-            <a
-              href="/"
-              className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
-            >
-              Home
-            </a>
-          </li>
-          <li className="relative h-full">
-            <a
-              href="/videos/best"
-              className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
-            >
-              Best of the week
-            </a>
-          </li>
-          {toPrintLinkboxes}
-        </ul>
+      <div className="bg-[#0d0d0b] h-14 flex items-center border-y-2 border-[#1f1e1d] relative">
+        <div className="container mx-auto px-4 h-full">
+          <ul
+            className={`flex gap-6 text-white h-full text-sm ${inter.className}`}
+          >
+            <li className="relative h-full">
+              <a
+                href="/"
+                className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
+              >
+                Home
+              </a>
+            </li>
+            <li className="relative h-full">
+              <a
+                href="/videos/best"
+                className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
+              >
+                Best of the week
+              </a>
+            </li>
+            {toPrintLinkboxes}
+          </ul>
+        </div>
       </div>
     </div>
   );

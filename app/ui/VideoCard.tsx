@@ -4,6 +4,12 @@ import VideoCardHostContainer from "./VideoCardHostContainer";
 import VideoCardClickableArea from "./VideoCardClickableArea";
 import { HoverProvider } from "../context/HoverContext";
 import Link from "next/link";
+import localFont from "next/font/local";
+
+const inter = localFont({
+  src: "../fonts/inter.ttf",
+  variable: "--font-inter",
+});
 
 type VideoCardProps = { video: Video; host: boolean };
 
@@ -15,14 +21,16 @@ export default function VideoCard({ video, host }: VideoCardProps) {
   const height = host ? "h-48" : "h-40";
 
   return (
-    <div className="card card-compact bg-base-100 shadow-xl relative cursor-pointer overflow-hidden">
+    <div
+      className={`card card-compact bg-[#0d0d0b] border border-[#1f1e1d] relative cursor-pointer overflow-hidden hover:scale-[1.02] hover:border-[#fb7ec3]/50 transition-all duration-200 rounded-md ${inter.className}`}
+    >
       <HoverProvider>
         <VideoCardClickableArea id={video.id} title={video.title} />
         <figure className={`${height} w-full overflow-hidden relative`}>
           <VideoCardImage pictures={video.pictures} />
 
           {video.new && (
-            <span className="absolute top-2 right-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded">
+            <span className="absolute top-2 right-2 bg-[#fb7ec3] text-black text-xs font-semibold px-2 py-1 rounded">
               New
             </span>
           )}
@@ -30,14 +38,14 @@ export default function VideoCard({ video, host }: VideoCardProps) {
           {video.links && (
             <>
               {video.links.some((link) => link.resolution === 5) && (
-                <span className="absolute bottom-2 left-2 bg-violet-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                <span className="absolute bottom-2 left-2 bg-[#fb7ec3]/70 text-white text-xs font-semibold px-2 py-1 rounded">
                   4K
                 </span>
               )}
 
               {video.links.some((link) => link.resolution >= 1) &&
                 !video.links.some((link) => link.resolution === 5) && (
-                  <span className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  <span className="absolute bottom-2 left-2 bg-[#fb7ec3]/70 text-white text-xs font-semibold px-2 py-1 rounded">
                     HD
                   </span>
                 )}
@@ -45,21 +53,21 @@ export default function VideoCard({ video, host }: VideoCardProps) {
           )}
 
           {video.duration && (
-            <span className="absolute bottom-2 right-2 bg-gray-800 text-white text-xs font-semibold px-2 py-1 rounded">
+            <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs font-semibold px-2 py-1 rounded">
               {video.duration}
             </span>
           )}
         </figure>
-        <div className="card-body">
+        <div className="card-body p-4">
           <h2
-            className="card-title overflow-hidden text-ellipsis"
+            className="card-title text-white overflow-hidden text-ellipsis text-base"
             style={{
               display: "-webkit-box",
               WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              height: "3rem",
-              lineHeight: "1.5rem",
+              height: "2.5rem",
+              lineHeight: "1.25rem",
               textOverflow: "ellipsis",
             }}
           >
@@ -67,16 +75,19 @@ export default function VideoCard({ video, host }: VideoCardProps) {
           </h2>
 
           {host && (
-            <div className="mt-2 flex flex-wrap min-h-[48px] z-20">
+            <div className="mt-3 flex flex-wrap gap-2 h-[48px] overflow-hidden">
               {categories.map((category, index) => (
                 <Link
                   key={index}
                   href={`/videos/categories/${category.value
                     .toLowerCase()
                     .replace(/\s+/g, "-")}`}
-                  className="badge badge-primary badge-outline mr-1 mb-1 cursor-pointer"
+                  className="badge bg-[#fb7ec3] text-black border-none hover:bg-[#e85a9d] transition-colors duration-200"
                 >
-                  {category.value}
+                  {category.value
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
                 </Link>
               ))}
               {tags.map((tag, index) => (
@@ -85,9 +96,12 @@ export default function VideoCard({ video, host }: VideoCardProps) {
                   href={`/videos/tags/${tag.value
                     .toLowerCase()
                     .replace(/\s+/g, "-")}`}
-                  className="badge badge-secondary badge-outline mr-1 mb-1 cursor-pointer"
+                  className="badge bg-[#fb7ec3] text-black border-none hover:bg-[#e85a9d] transition-colors duration-200"
                 >
-                  {tag.value}
+                  {tag.value
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
                 </Link>
               ))}
               {pornstars.map((pornstar, index) => (
@@ -96,15 +110,22 @@ export default function VideoCard({ video, host }: VideoCardProps) {
                   href={`/videos/pornstars/${pornstar.value
                     .toLowerCase()
                     .replace(/\s+/g, "-")}`}
-                  className="badge badge-accent badge-outline mr-1 mb-1 cursor-pointer"
+                  className="badge bg-[#2a2a28] text-gray-300 border border-[#1f1e1d] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200"
                 >
-                  {pornstar.value}
+                  {pornstar.value
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
                 </Link>
               ))}
             </div>
           )}
 
-          {host && <VideoCardHostContainer hostLinks={video.links} />}
+          {host && (
+            <div className="mt-3 pt-3 border-t border-[#1f1e1d]">
+              <VideoCardHostContainer hostLinks={video.links} />
+            </div>
+          )}
         </div>
       </HoverProvider>
     </div>

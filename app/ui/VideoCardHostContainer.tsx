@@ -22,9 +22,9 @@ export default function VideoCardHostContainer({
   }
 
   return (
-    <div className="card-actions flex justify-between">
+    <div className="flex gap-2">
       {entries.map(([key, hostLinks]) => (
-        <div key={key} className="flex-[20%] z-20">
+        <div key={key} className="flex-1">
           <VideoCardHostButton hostKey={key} hostLinks={hostLinks} />
         </div>
       ))}

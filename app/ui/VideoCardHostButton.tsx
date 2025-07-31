@@ -66,7 +66,7 @@ export default function VideoCardHostButton({
 
   return (
     <button
-      className={`btn overflow-hidden w-full grayscale hover:grayscale-0 transition-all duration-300 z-20 ${
+      className={`h-8 w-full rounded border border-[#1f1e1d] bg-[#2a2a28] hover:border-[#fb7ec3] hover:bg-[#fb7ec3] transition-all duration-200 overflow-hidden grayscale hover:grayscale-0 ${
         hostKey !== undefined && hostKey !== ""
           ? "opacity-100"
           : "opacity-0 pointer-events-none"
@@ -77,6 +77,7 @@ export default function VideoCardHostButton({
           : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         padding: "0",
       }}
       onClick={handleClick}
