@@ -1,7 +1,14 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
 import localFont from "next/font/local";
+import {
+  MagnifyingGlassIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 type HeaderProps = {
   linkboxes: LinkBoxes;
@@ -29,6 +36,30 @@ function separateIntoChunks<T>(array: T[], chunkSize: number): T[][] {
 }
 
 export default function Header({ linkboxes }: HeaderProps) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
+
+  const toggleDropdown = (index: number) => {
+    setOpenDropdowns((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+  // Gérer le scroll du body quand le menu est ouvert
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup au démontage du composant
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen]);
+
   const toPrintLinkboxes = linkboxes.linkboxes.map((linkbox, i) => (
     <li
       key={i}
@@ -53,7 +84,13 @@ export default function Header({ linkboxes }: HeaderProps) {
                   {links.map((link) => (
                     <li key={`${linkbox.category}${j}`}>
                       <Link href={link.url} passHref>
-                        {link.linkText}
+                        {link.linkText
+                          .split(" ")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ")}
                         {link.recentCount !== 0 && (
                           <div className="badge badge-error badge-s">
                             +{link.recentCount}
@@ -73,26 +110,56 @@ export default function Header({ linkboxes }: HeaderProps) {
 
   return (
     <div className="w-full">
-      {/* Ligne 1 : Logo + SearchBar */}
+      {/* Ligne 1 : Logo + SearchBar/Buttons */}
       <div className="bg-[#080908] py-4 h-24">
         <div className="container mx-auto px-4 flex items-center justify-between h-full">
-          <div
-            className={`${newake.className} text-5xl h-full flex group cursor-pointer`}
-          >
-            <span className="outline group-hover:neon-outline">KIN</span>
-            <span className="neon-outline">
-              <span className="inline-block transform scale-x-[-1]">K</span>K
-            </span>
-            <span className="outline group-hover:neon-outline">ORNER</span>
-          </div>
-          <div className="w-full max-w-md">
+          {/* Logo */}
+          <Link href="/">
+            <div
+              className={`${newake.className} text-5xl  h-full flex group cursor-pointer`}
+            >
+              <span className="outline group-hover:neon-outline">KIN</span>
+              <span className="neon-outline">
+                <span className="inline-block transform scale-x-[-1]">K</span>K
+              </span>
+              <span className="outline group-hover:neon-outline -ml-1">
+                ORNER
+              </span>
+            </div>
+          </Link>
+
+          {/* Desktop Search Bar */}
+          <div className="hidden md:block w-full max-w-md">
             <SearchBar />
           </div>
+
+          {/* Mobile Buttons */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="btn btn-ghost btn-square text-white hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200"
+            >
+              <MagnifyingGlassIcon className="h-6 w-6" />
+            </button>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="btn btn-ghost btn-square text-white hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200"
+            >
+              <Bars3Icon className="h-6 w-6" />
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Search Bar */}
+        {isSearchOpen && (
+          <div className="md:hidden bg-[#080908] border-t border-[#1f1e1d] px-4 py-3 relative z-50">
+            <SearchBar />
+          </div>
+        )}
       </div>
 
-      {/* Ligne 2 : Menu */}
-      <div className="bg-[#0d0d0b] h-14 flex items-center border-y-2 border-[#1f1e1d] relative">
+      {/* Desktop Menu */}
+      <div className="hidden md:block bg-[#0d0d0b] h-14 flex items-center border-y-2 border-[#1f1e1d] relative">
         <div className="container mx-auto px-4 h-full">
           <ul
             className={`flex gap-6 text-white h-full text-sm ${inter.className}`}
@@ -117,6 +184,111 @@ export default function Header({ linkboxes }: HeaderProps) {
           </ul>
         </div>
       </div>
+
+      {/* Mobile Menu Modal */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setIsMenuOpen(false);
+            }
+          }}
+        >
+          <div className="fixed right-0 top-0 h-full w-80 bg-[#0d0d0b] shadow-xl transform transition-transform duration-300">
+            <div className="flex justify-between items-center p-4 border-b border-[#1f1e1d]">
+              <h2
+                className={`text-xl font-semibold text-white ${inter.className}`}
+              >
+                Navigation
+              </h2>
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="btn btn-ghost btn-square text-white hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200"
+              >
+                <XMarkIcon className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto h-full pb-20">
+              <ul
+                className={`menu p-6 text-white ${inter.className} space-y-2`}
+              >
+                <li>
+                  <Link
+                    href="/"
+                    className="text-white hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 text-base py-3"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/videos/best"
+                    className="text-white hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 text-base py-3"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Best of the week
+                  </Link>
+                </li>
+
+                {linkboxes.linkboxes.map((linkbox, i) => (
+                  <li key={i}>
+                    <button
+                      onClick={() => toggleDropdown(i)}
+                      className="text-white hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 w-full flex justify-between items-center text-base py-3"
+                    >
+                      <span>{linkbox.title}</span>
+                      <svg
+                        className={`w-5 h-5 transition-transform duration-200 ${
+                          openDropdowns.includes(i) ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    {openDropdowns.includes(i) && (
+                      <ul className="ml-6 mt-3 space-y-2">
+                        {linkbox.links.map((link, j) => (
+                          <li key={j}>
+                            <Link
+                              href={link.url}
+                              className="block text-gray-300 hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 text-sm py-2 px-3 rounded"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              {link.linkText
+                                .split(" ")
+                                .map(
+                                  (word) =>
+                                    word.charAt(0).toUpperCase() + word.slice(1)
+                                )
+                                .join(" ")}
+                              {link.recentCount !== 0 && (
+                                <div className="badge badge-error badge-xs ml-2">
+                                  +{link.recentCount}
+                                </div>
+                              )}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
