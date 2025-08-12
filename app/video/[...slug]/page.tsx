@@ -15,26 +15,9 @@ const inter = localFont({
   variable: "--font-inter",
 });
 
-const resolutionMap = ["SD", "HD", "FHD", "QHD", "2K", "4K", "8K"];
-const formatMap = ["mp4", "rar", "avi"];
+// Maps déplacées dans app/utils/downloadUtils.ts
 
-const getResolutionText = (resolution: number | undefined): string => {
-  return resolution !== undefined &&
-    resolution >= 0 &&
-    resolution < resolutionMap.length
-    ? resolutionMap[resolution]
-    : "";
-};
-
-const getFormatText = (format: number | undefined): string => {
-  return format !== undefined && format >= 0 && format < formatMap.length
-    ? formatMap[format]
-    : "";
-};
-
-const formatSize = (size: number): string => {
-  return size >= 1000 ? `${(size / 1000).toFixed(2)} GB` : `${size} MB`;
-};
+// Fonctions utilitaires déplacées dans app/utils/downloadUtils.ts
 
 type Props = {
   params: {
@@ -230,7 +213,6 @@ export default async function Video({ params }: Props) {
                       <DownloadCard
                         key={`${key}-${index}`}
                         hostKey={key}
-                        hostLinks={hostLinks}
                         hostLink={hostLink}
                         inter={inter}
                       />

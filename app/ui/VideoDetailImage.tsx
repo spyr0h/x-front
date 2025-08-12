@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 type VideoDetailImageProps = { picture: Picture; index: number };
 
@@ -14,9 +15,11 @@ export default function VideoDetailImage({
 
   return (
     <div key={index} className="cursor-pointer">
-      <img
+      <Image
         src={picture.directUrl}
         alt={`Aperçu ${index + 1}`}
+        width={320}
+        height={160}
         className="w-full h-40 object-cover rounded-md"
         onClick={openPicture}
       />

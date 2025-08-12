@@ -19,14 +19,12 @@ type HostLink = {
 
 type DownloadCardProps = {
   hostKey: string;
-  hostLinks: HostLink[];
   hostLink: HostLink;
-  inter: any;
+  inter: { className: string };
 };
 
 export default function DownloadCard({
   hostKey,
-  hostLinks,
   hostLink,
   inter,
 }: DownloadCardProps) {
