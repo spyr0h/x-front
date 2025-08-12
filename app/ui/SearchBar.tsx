@@ -118,7 +118,7 @@ export default function SearchBar() {
       </div>
 
       {isDropdownOpen && (
-        <ul className="absolute z-10 left-0 right-0 bg-[#0d0d0b] border border-[#1f1e1d] rounded-lg shadow-lg mt-1 overflow-hidden">
+        <ul className="absolute z-50 left-0 right-0 bg-[#0d0d0b] border border-[#1f1e1d] rounded-lg shadow-lg mt-1 overflow-hidden">
           {searchResults.suggestions.length ? (
             searchResults.suggestions.map((result: Suggestion) => (
               <li

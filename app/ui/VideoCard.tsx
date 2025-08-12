@@ -11,9 +11,13 @@ const inter = localFont({
   variable: "--font-inter",
 });
 
-type VideoCardProps = { video: Video; host: boolean };
+type VideoCardProps = { video: Video; host: boolean; disableHover?: boolean };
 
-export default function VideoCard({ video, host }: VideoCardProps) {
+export default function VideoCard({
+  video,
+  host,
+  disableHover = false,
+}: VideoCardProps) {
   const categories = video.categories.slice(0, 3);
   const tags = video.tags.slice(0, 2);
   const pornstars = video.pornstars.slice(0, 2);
@@ -22,7 +26,9 @@ export default function VideoCard({ video, host }: VideoCardProps) {
 
   return (
     <div
-      className={`card card-compact bg-[#0d0d0b] border border-[#1f1e1d] relative cursor-pointer overflow-hidden hover:scale-[1.02] hover:border-[#fb7ec3]/50 transition-all duration-200 rounded-md ${inter.className}`}
+      className={`card card-compact bg-[#0d0d0b] border border-[#1f1e1d] relative cursor-pointer overflow-hidden transition-all duration-200 rounded-md ${
+        !disableHover ? "hover:scale-[1.02] hover:border-[#fb7ec3]/50" : ""
+      } ${inter.className}`}
     >
       <HoverProvider>
         <VideoCardClickableArea id={video.id} title={video.title} />
@@ -110,7 +116,7 @@ export default function VideoCard({ video, host }: VideoCardProps) {
                   href={`/videos/pornstars/${pornstar.value
                     .toLowerCase()
                     .replace(/\s+/g, "-")}`}
-                  className="badge bg-[#2a2a28] text-gray-300 border border-[#1f1e1d] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200"
+                  className="badge bg-[#0d0d0b] text-gray-300 border border-[#1f1e1d] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200"
                 >
                   {pornstar.value
                     .split(" ")

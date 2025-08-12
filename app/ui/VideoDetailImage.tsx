@@ -17,7 +17,7 @@ export default function VideoDetailImage({
       <img
         src={picture.directUrl}
         alt={`Aperçu ${index + 1}`}
-        className="w-full h-40 object-cover rounded-lg"
+        className="w-full h-40 object-cover rounded-md"
         onClick={openPicture}
       />
     </div>

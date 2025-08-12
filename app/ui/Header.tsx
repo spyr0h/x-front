@@ -116,7 +116,12 @@ export default function Header({ linkboxes }: HeaderProps) {
           {/* Logo */}
           <Link href="/">
             <div
-              className={`${newake.className} text-5xl  h-full flex group cursor-pointer`}
+              className={`
+                ${newake.className} 
+                text-4xl md:text-5xl
+                h-full flex group cursor-pointer 
+                pt-[0.25em] md:pt-[0.20em]
+              `}
             >
               <span className="outline group-hover:neon-outline">KIN</span>
               <span className="neon-outline">

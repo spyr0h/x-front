@@ -56,7 +56,13 @@ export default function VideoCardHostButton({
   hostKey,
   hostLinks,
 }: VideoCardHostButtonProps) {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    // Prevent click on mobile (handled by parent card)
+    if (window.innerWidth < 640) {
+      e.stopPropagation();
+      return;
+    }
+
     if (hostLinks.length === 1) {
       window.open(hostLinks[0].url, "_blank");
     } else {
@@ -66,7 +72,7 @@ export default function VideoCardHostButton({
 
   return (
     <button
-      className={`h-8 w-full rounded border border-[#1f1e1d] bg-[#2a2a28] hover:border-[#fb7ec3] hover:bg-[#fb7ec3] transition-all duration-200 overflow-hidden grayscale hover:grayscale-0 ${
+      className={`h-full sm:h-8 w-full rounded border border-[#1f1e1d] bg-[#0d0d0b] sm:hover:border-[#fb7ec3] sm:hover:bg-[#fb7ec3] transition-all duration-200 overflow-hidden grayscale sm:hover:grayscale-0 min-h-[32px] ${
         hostKey !== undefined && hostKey !== ""
           ? "opacity-100"
           : "opacity-0 pointer-events-none"

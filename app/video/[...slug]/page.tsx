@@ -5,10 +5,15 @@ import { Metadata } from "next";
 import Header from "@/app/ui/Header";
 import Footer from "@/app/ui/Footer";
 import VideoDetailImage from "@/app/ui/VideoDetailImage";
-import VideoDetailDescription from "@/app/ui/VideoDetailDescription";
-import VideoCardHostButton from "@/app/ui/VideoCardHostButton";
+import DownloadCard from "@/app/ui/DownloadCard";
 import SuggestionContainer from "@/app/ui/SuggestionContainer";
 import { groupHostLinks } from "@/app/utils/helpers";
+import localFont from "next/font/local";
+
+const inter = localFont({
+  src: "../../fonts/inter.ttf",
+  variable: "--font-inter",
+});
 
 const resolutionMap = ["SD", "HD", "FHD", "QHD", "2K", "4K", "8K"];
 const formatMap = ["mp4", "rar", "avi"];
@@ -79,116 +84,200 @@ export default async function Video({ params }: Props) {
   }
 
   const groupedLinks = groupHostLinks(data.video.links);
+  const hasDetails = data.video.duration || data.video.year;
+  const hasDescription =
+    data.video.description && data.video.description.trim();
+  const hasPreviews = data.video.pictures && data.video.pictures.length > 0;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#050504]">
       <Header linkboxes={data.linkboxes} />
       <div className="flex-grow">
         <div className="container mx-auto px-4 py-8">
-          <div className="container w-2/4">
-            <h1 className="text-3xl font-bold mb-8 text-left">
+          <div className="max-w-6xl mx-auto">
+            {/* Title */}
+            <h1
+              className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-8 text-white ${inter.className}`}
+            >
               {data.seoData.headline}
             </h1>
+
+            {/* Video Preview */}
             {preview && (
-              <iframe
-                src={preview}
-                allowFullScreen={true}
-                className="w-full aspect-video"
-              />
+              <div className="mb-8">
+                <iframe
+                  src={preview}
+                  allowFullScreen={true}
+                  className="w-full aspect-video rounded-lg"
+                />
+              </div>
             )}
-            <div className="mt-5 flex flex-wrap z-20">
-              {data.video.categories.map(
-                (category: Category, index: number) => (
+
+            {/* Tags */}
+            <div className="mb-8">
+              <div className="flex flex-wrap gap-2">
+                {data.video.categories.map(
+                  (category: Category, index: number) => (
+                    <Link
+                      key={index}
+                      href={`/videos/categories/${category.value
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                      className={`badge bg-[#fb7ec3] text-black border-none hover:bg-[#e85a9d] transition-colors duration-200 ${inter.className}`}
+                    >
+                      {category.value
+                        .split(" ")
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
+                        .join(" ")}
+                    </Link>
+                  )
+                )}
+                {data.video.tags.map((tag: Tag, index: number) => (
                   <Link
                     key={index}
-                    href={`/videos/categories/${category.value
+                    href={`/videos/tags/${tag.value
                       .toLowerCase()
                       .replace(/\s+/g, "-")}`}
-                    className="badge badge-lg badge-primary badge-outline mr-1 mb-1 cursor-pointer"
+                    className={`badge bg-[#fb7ec3] text-black border-none hover:bg-[#e85a9d] transition-colors duration-200 ${inter.className}`}
                   >
-                    {category.value}
+                    {tag.value
+                      .split(" ")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
                   </Link>
-                )
-              )}
-              {data.video.tags.map((tag: Tag, index: number) => (
-                <Link
-                  key={index}
-                  href={`/videos/tags/${tag.value
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}`}
-                  className="badge badge-lg badge-secondary badge-outline mr-1 mb-1 cursor-pointer"
-                >
-                  {tag.value}
-                </Link>
-              ))}
-              {data.video.pornstars.map((pornstar: Pornstar, index: number) => (
-                <Link
-                  key={index}
-                  href={`/videos/pornstars/${pornstar.value
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}`}
-                  className="badge badge-lg badge-accent badge-outline mr-1 mb-1 cursor-pointer"
-                >
-                  {pornstar.value}
-                </Link>
-              ))}
+                ))}
+                {data.video.pornstars.map(
+                  (pornstar: Pornstar, index: number) => (
+                    <Link
+                      key={index}
+                      href={`/videos/pornstars/${pornstar.value
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                      className={`badge bg-[#0d0d0b] text-gray-300 border border-[#1f1e1d] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 ${inter.className}`}
+                    >
+                      {pornstar.value
+                        .split(" ")
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
+                        .join(" ")}
+                    </Link>
+                  )
+                )}
+              </div>
             </div>
-            <VideoDetailDescription description={data.video.description} />
-            <div>
-              {(data.video.duration || data.video.year) && (
-                <div>
-                  <h2 className="text-xl font-semibold mt-5 mb-2">Details</h2>
-                  <ul className="text-gray-600">
-                    {data.video.duration && (
-                      <li>
-                        <strong>Durée :</strong> {data.video.duration}
-                      </li>
-                    )}
-                    {data.video.year && (
-                      <li>
-                        <strong>Année :</strong> {data.video.year}
-                      </li>
-                    )}
-                  </ul>
+
+            {/* Content Sections */}
+            <div className="space-y-8 mb-8">
+              {/* Description & Details Combined */}
+              {(hasDescription || hasDetails) && (
+                <div className="bg-[#0d0d0b] border border-[#1f1e1d] rounded-lg p-6">
+                  <h2
+                    className={`text-lg font-semibold mb-4 text-white ${inter.className}`}
+                  >
+                    Details
+                  </h2>
+                  {hasDescription && (
+                    <div
+                      className={`text-white ${inter.className} ${
+                        hasDetails ? "mb-6" : ""
+                      }`}
+                      dangerouslySetInnerHTML={{
+                        __html: data.video.description,
+                      }}
+                    />
+                  )}
+
+                  {hasDetails && (
+                    <div
+                      className={`${
+                        hasDescription ? "pt-4 border-t border-[#1f1e1d]" : ""
+                      } ${inter.className}`}
+                    >
+                      <div className="flex flex-wrap gap-4 text-gray-300">
+                        {data.video.duration && (
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">Duration:</span>
+                            <span>{data.video.duration}</span>
+                          </div>
+                        )}
+                        {data.video.year && (
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">Year:</span>
+                            <span>{data.video.year}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-            <h2 className="text-xl font-semibold mt-5 mb-2">Previews</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              {data.video.pictures.map((picture: Picture, index: number) => (
-                <VideoDetailImage key={index} index={index} picture={picture} />
-              ))}
-            </div>
-            <h2 className="text-xl font-semibold mt-5 mb-2">Download</h2>
-            <div className="bg-gray-600 rounded-lg p-4">
-              {Object.entries(groupedLinks).flatMap(([key, hostLinks]) =>
-                hostLinks.map((hostLink, index) => (
-                  <li
-                    key={`${key}-${index}`}
-                    className="flex items-center justify-between py-2 border-b last:border-b-0"
-                  >
-                    <div className="flex-1" style={{ flex: "0 0 40%" }}>
-                      <span className="font-semibold">
-                        {getResolutionText(hostLink.resolution)}{" "}
-                      </span>{" "}
-                      - {getFormatText(hostLink.format)}{" "}
-                    </div>
-                    <div className="flex-1" style={{ flex: "0 0 40%" }}>
-                      {formatSize(hostLink.size)}
-                    </div>
-                    <div className="flex-1" style={{ flex: "0 0 20%" }}>
-                      <VideoCardHostButton
-                        key={key}
+
+              {/* Download Section */}
+              <div className="bg-[#0d0d0b] border border-[#1f1e1d] rounded-lg p-6">
+                <h2
+                  className={`text-lg font-semibold mb-4 text-white ${inter.className}`}
+                >
+                  Download
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {Object.entries(groupedLinks).flatMap(([key, hostLinks]) =>
+                    hostLinks.map((hostLink, index) => (
+                      <DownloadCard
+                        key={`${key}-${index}`}
                         hostKey={key}
-                        hostLinks={[hostLink]}
+                        hostLinks={hostLinks}
+                        hostLink={hostLink}
+                        inter={inter}
                       />
-                    </div>
-                  </li>
-                ))
-              )}
+                    ))
+                  )}
+                </div>
+              </div>
             </div>
-            <h2 className="text-xl font-semibold mt-5 mb-2">You may like...</h2>
-            <SuggestionContainer suggestionBoxes={data.suggestionBoxes} />
+
+            {/* Previews */}
+            {hasPreviews && (
+              <div className="mb-8">
+                <div className="bg-[#0d0d0b] border border-[#1f1e1d] rounded-lg p-6">
+                  <h2
+                    className={`text-lg font-semibold mb-6 text-white ${inter.className}`}
+                  >
+                    Previews
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {data.video.pictures.map(
+                      (picture: Picture, index: number) => (
+                        <VideoDetailImage
+                          key={index}
+                          index={index}
+                          picture={picture}
+                        />
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Suggestions */}
+            <div className="mt-12 mb-8">
+              <div className="bg-[#0d0d0b] border border-[#1f1e1d] rounded-lg p-6 pb-8">
+                <h2
+                  className={`text-lg font-semibold mb-6 text-white ${inter.className}`}
+                >
+                  You may like...
+                </h2>
+                <SuggestionContainer
+                  suggestionBoxes={data.suggestionBoxes}
+                  disableHover={true}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

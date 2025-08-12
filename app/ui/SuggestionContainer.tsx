@@ -3,10 +3,12 @@ import VideoCarousel from "./VideoCarousel";
 
 type SuggestionContainerProps = {
   suggestionBoxes: SuggestionBox[];
+  disableHover?: boolean;
 };
 
 export default function SuggestionContainer({
   suggestionBoxes,
+  disableHover = false,
 }: SuggestionContainerProps) {
   suggestionBoxes.sort((a, b) => a.order - b.order);
   const videos = suggestionBoxes.flatMap(
@@ -17,7 +19,7 @@ export default function SuggestionContainer({
     <div>
       {
         <div>
-          <VideoCarousel videos={videos} />
+          <VideoCarousel videos={videos} disableHover={disableHover} />
         </div>
       }
     </div>
