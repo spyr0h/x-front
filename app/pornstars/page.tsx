@@ -5,25 +5,21 @@ import PornstarsClient from "./PornstarsClient";
 import localFont from "next/font/local";
 
 type PornstarLink = {
-  url: string;
+  count: number;
   linkText: string;
+  order: number;
   recentCount: number;
-};
-
-type LinkBox = {
-  category: string;
-  title: string;
-  links: PornstarLink[];
-};
-
-type LinkBoxes = {
-  linkboxes: LinkBox[];
+  url: string;
 };
 
 type PornstarsData = {
   seoData: {
     title: string;
     description: string;
+    headline: string;
+    canonical: string;
+    isIndexed: boolean;
+    recentCount: number;
   };
   pageLinks: PornstarLink[];
   linkboxes: LinkBoxes;
