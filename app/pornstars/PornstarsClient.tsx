@@ -13,17 +13,8 @@ type PornstarLink = {
   url: string;
 };
 
-type LinkBox = {
-  category: number;
-  links: PornstarLink[];
-  order: number;
-  title: string;
-};
-
 type PornstarsData = {
-  linkboxes: {
-    linkboxes: LinkBox[];
-  };
+  linkboxes: LinkBoxes;
   pageLinks: PornstarLink[];
   seoData: {
     canonical: string;
