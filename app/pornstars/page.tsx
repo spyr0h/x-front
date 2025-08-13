@@ -1,0 +1,59 @@
+import React from "react";
+import { cache } from "react";
+import { Metadata } from "next";
+import PornstarsClient from "./PornstarsClient";
+import localFont from "next/font/local";
+
+type PornstarLink = {
+  url: string;
+  linkText: string;
+  recentCount: number;
+};
+
+type LinkBox = {
+  category: string;
+  title: string;
+  links: PornstarLink[];
+};
+
+type LinkBoxes = {
+  linkboxes: LinkBox[];
+};
+
+type PornstarsData = {
+  seoData: {
+    title: string;
+    description: string;
+  };
+  pageLinks: PornstarLink[];
+  linkboxes: LinkBoxes;
+};
+
+const getData = cache(async (): Promise<PornstarsData> => {
+  const res = await fetch("https://x-api.ovh/api/page/pornstars", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
+    },
+    next: { revalidate: 0 },
+  });
+  return res.json();
+});
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getData();
+  return {
+    title: data.seoData.title,
+    description: data.seoData.description,
+  };
+}
+
+const inter = localFont({
+  src: "../fonts/inter.ttf",
+  variable: "--font-inter",
+});
+
+export default async function Pornstars() {
+  const data = await getData();
+  return <PornstarsClient data={data} inter={inter} />;
+}

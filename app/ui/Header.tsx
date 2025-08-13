@@ -99,9 +99,77 @@ export default function Header({ linkboxes }: HeaderProps) {
                       </Link>
                     </li>
                   ))}
+
+                  {/* All Categories Link - Desktop - Only for Categories menu */}
+                  {linkbox.title === "Categories" &&
+                    j === separateIntoChunks(linkbox.links, 4).length - 1 &&
+                    links.length < 4 && (
+                      <li>
+                        <Link
+                          href="/categories"
+                          className="text-[#fb7ec3] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 font-medium"
+                        >
+                          All Categories
+                        </Link>
+                      </li>
+                    )}
+
+                  {/* All Pornstars Link - Desktop - Only for Pornstars menu */}
+                  {linkbox.title === "Pornstars" &&
+                    j === separateIntoChunks(linkbox.links, 4).length - 1 &&
+                    links.length < 4 && (
+                      <li>
+                        <Link
+                          href="/pornstars"
+                          className="text-[#fb7ec3] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 font-medium"
+                        >
+                          All Pornstars
+                        </Link>
+                      </li>
+                    )}
                 </ul>
               </li>
             ))}
+
+            {/* All Categories Link - Desktop - Only for Categories menu (new column if last column is full) */}
+            {linkbox.title === "Categories" &&
+              separateIntoChunks(linkbox.links, 4).length > 0 &&
+              separateIntoChunks(linkbox.links, 4)[
+                separateIntoChunks(linkbox.links, 4).length - 1
+              ].length >= 4 && (
+                <li>
+                  <ul>
+                    <li>
+                      <Link
+                        href="/categories"
+                        className="text-[#fb7ec3] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 font-medium"
+                      >
+                        All Categories
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              )}
+
+            {/* All Pornstars Link - Desktop - Only for Pornstars menu (new column if last column is full) */}
+            {linkbox.title === "Pornstars" &&
+              separateIntoChunks(linkbox.links, 4).length > 0 &&
+              separateIntoChunks(linkbox.links, 4)[
+                separateIntoChunks(linkbox.links, 4).length - 1
+              ].length >= 4 && (
+                <li>
+                  <ul>
+                    <li>
+                      <Link
+                        href="/pornstars"
+                        className="text-[#fb7ec3] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 font-medium"
+                      >
+                        All Pornstars
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              )}
           </ul>
         </div>
       </div>
@@ -185,6 +253,7 @@ export default function Header({ linkboxes }: HeaderProps) {
                 Best of the week
               </a>
             </li>
+
             {toPrintLinkboxes}
           </ul>
         </div>
@@ -285,6 +354,32 @@ export default function Header({ linkboxes }: HeaderProps) {
                             </Link>
                           </li>
                         ))}
+
+                        {/* All Categories Link - Mobile - Only for Categories menu */}
+                        {linkbox.title === "Categories" && (
+                          <li className="mt-3 pt-3 border-t border-[#1f1e1d]">
+                            <Link
+                              href="/categories"
+                              className="block text-[#fb7ec3] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 text-sm py-2 px-3 rounded font-medium"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              All Categories
+                            </Link>
+                          </li>
+                        )}
+
+                        {/* All Pornstars Link - Mobile - Only for Pornstars menu */}
+                        {linkbox.title === "Pornstars" && (
+                          <li className="mt-3 pt-3 border-t border-[#1f1e1d]">
+                            <Link
+                              href="/pornstars"
+                              className="block text-[#fb7ec3] hover:bg-[#fb7ec3] hover:text-black transition-colors duration-200 text-sm py-2 px-3 rounded font-medium"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              All Pornstars
+                            </Link>
+                          </li>
+                        )}
                       </ul>
                     )}
                   </li>

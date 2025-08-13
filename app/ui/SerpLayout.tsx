@@ -23,7 +23,7 @@ export default function SerpLayout({
       <Header linkboxes={linkboxes} />
       <div className="flex-grow bg-[#050504]">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8 text-left relative flex items-center">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 text-left relative flex items-center">
             {seoData.headline}
             {seoData.recentCount !== 0 && (
               <div className="badge badge-error badge-lg ml-2 relative -top-3">
