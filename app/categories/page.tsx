@@ -36,6 +36,7 @@ type CategoriesData = {
     isIndexed: boolean;
     recentCount: number;
     title: string;
+    keywords?: string[];
   };
 };
 
@@ -56,6 +57,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: data.seoData.title,
     description: data.seoData.description,
+    keywords: data.seoData.keywords?.join(", "),
+    robots: data.seoData.isIndexed ? "index, follow" : "noindex, nofollow",
+    alternates: {
+      canonical: `https://kinkorner.com${data.seoData.canonical}`,
+    },
   };
 }
 

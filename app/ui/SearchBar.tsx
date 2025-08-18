@@ -28,22 +28,26 @@ export default function SearchBar() {
   useEffect(() => {
     if (searchTerm) {
       const delayDebounceFn = setTimeout(async () => {
-        const response = await fetch(
-          `https://x-api.ovh/api/full/autocomplete`,
-          {
+        try {
+          const response = await fetch("/api/autocomplete", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_PUBLIC_API_KEY}`,
             },
             body: JSON.stringify({ value: searchTerm }),
-          }
-        );
+          });
 
-        const data = await response.json();
-        console.error(data);
-        setSearchResults(data);
-        setIsDropdownOpen(true);
+          if (!response.ok) {
+            throw new Error("Autocomplete request failed");
+          }
+
+          const data = await response.json();
+          setSearchResults(data);
+          setIsDropdownOpen(true);
+        } catch (error) {
+          console.error("Autocomplete error:", error);
+          setSearchResults({ suggestions: [] });
+        }
       }, 150);
 
       return () => clearTimeout(delayDebounceFn);

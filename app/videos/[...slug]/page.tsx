@@ -59,6 +59,11 @@ export async function generateMetadata({
   return {
     title: data.seoData.title,
     description: data.seoData.description,
+    keywords: data.seoData.keywords?.join(", "),
+    robots: data.seoData.isIndexed ? "index, follow" : "noindex, nofollow",
+    alternates: {
+      canonical: `https://kinkorner.com${data.seoData.canonical}`,
+    },
   };
 }
 
