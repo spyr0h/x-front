@@ -4,6 +4,9 @@ import { Metadata } from "next";
 import PornstarsClient from "./PornstarsClient";
 import localFont from "next/font/local";
 
+export const dynamic = "force-static";
+export const revalidate = 86400; // ISR: revalidate daily
+
 type PornstarLink = {
   count: number;
   linkText: string;
@@ -32,7 +35,7 @@ const getData = cache(async (): Promise<PornstarsData> => {
     headers: {
       Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
     },
-    next: { revalidate: 0 },
+    next: { revalidate: 86400 },
   });
   return res.json();
 });

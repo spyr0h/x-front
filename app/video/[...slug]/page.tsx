@@ -15,10 +15,6 @@ const inter = localFont({
   variable: "--font-inter",
 });
 
-// Maps déplacées dans app/utils/downloadUtils.ts
-
-// Fonctions utilitaires déplacées dans app/utils/downloadUtils.ts
-
 type Props = {
   params: {
     slug: string[];

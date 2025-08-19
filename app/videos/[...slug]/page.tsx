@@ -21,7 +21,7 @@ const getData = cache(async (slug: string) => {
       Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
     },
     body: JSON.stringify({ url: constructedUrl }),
-    next: { revalidate: 0 },
+    next: { revalidate: 86400 },
   });
 
   if (!res.ok) {
@@ -47,6 +47,90 @@ const generateUrl = ({ params, searchParams }: Props): string => {
 
   return technicalUrl;
 };
+
+export async function generateStaticParams() {
+  const staticParams: { slug: string[] }[] = [];
+
+  try {
+    if (!process.env.PRIVATE_API_KEY) {
+      console.error("PRIVATE_API_KEY is not defined");
+      return [];
+    }
+
+    const categoriesRes = await fetch("https://x-api.ovh/api/page/categories", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
+      },
+    });
+
+    if (categoriesRes.ok) {
+      const text = await categoriesRes.text();
+      try {
+        const categoriesData = JSON.parse(text);
+        if (
+          categoriesData.pageLinks &&
+          Array.isArray(categoriesData.pageLinks)
+        ) {
+          for (const category of categoriesData.pageLinks) {
+            const urlParts = category.url.split("/").filter(Boolean);
+            if (urlParts.length >= 2) {
+              staticParams.push({ slug: urlParts.slice(1) });
+            }
+          }
+        }
+      } catch (parseError) {
+        console.error(
+          "Failed to parse categories JSON:",
+          parseError,
+          text.substring(0, 200)
+        );
+      }
+    } else {
+      console.error(
+        `Categories API error: ${categoriesRes.status} ${categoriesRes.statusText}`
+      );
+    }
+
+    const pornstarsRes = await fetch("https://x-api.ovh/api/page/pornstars", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
+      },
+    });
+
+    if (pornstarsRes.ok) {
+      const text = await pornstarsRes.text();
+      try {
+        const pornstarsData = JSON.parse(text);
+        if (pornstarsData.pageLinks && Array.isArray(pornstarsData.pageLinks)) {
+          for (const pornstar of pornstarsData.pageLinks) {
+            const urlParts = pornstar.url.split("/").filter(Boolean);
+            if (urlParts.length >= 2) {
+              staticParams.push({ slug: urlParts.slice(1) });
+            }
+          }
+        }
+      } catch (parseError) {
+        console.error(
+          "Failed to parse pornstars JSON:",
+          parseError,
+          text.substring(0, 200)
+        );
+      }
+    } else {
+      console.error(
+        `Pornstars API error: ${pornstarsRes.status} ${pornstarsRes.statusText}`
+      );
+    }
+
+    console.log(`Generated ${staticParams.length} static params for SSG`);
+    return staticParams;
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
+}
 
 export async function generateMetadata({
   params,

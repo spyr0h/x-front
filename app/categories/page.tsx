@@ -4,6 +4,9 @@ import { Metadata } from "next";
 import CategoriesClient from "./CategoriesClient";
 import localFont from "next/font/local";
 
+export const dynamic = "force-static";
+export const revalidate = 86400; // ISR: revalidate daily
+
 const inter = localFont({
   src: "../fonts/inter.ttf",
   variable: "--font-inter",
@@ -46,7 +49,7 @@ const getData = cache(async (): Promise<CategoriesData> => {
     headers: {
       Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
     },
-    next: { revalidate: 0 },
+    next: { revalidate: 86400 },
   });
 
   return res.json();

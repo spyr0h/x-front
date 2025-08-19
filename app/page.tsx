@@ -3,6 +3,9 @@ import { cache } from "react";
 import { Metadata } from "next";
 import SerpLayout from "@/app/ui/SerpLayout";
 
+export const dynamic = "force-static";
+export const revalidate = 86400; // ISR: revalidate daily
+
 const getData = cache(async () => {
   const constructedUrl = `/videos/all`;
 
@@ -13,7 +16,7 @@ const getData = cache(async () => {
       Authorization: `Bearer ${process.env.PRIVATE_API_KEY}`,
     },
     body: JSON.stringify({ url: constructedUrl }),
-    next: { revalidate: 0 },
+    next: { revalidate: 86400 },
   });
 
   return res.json();
