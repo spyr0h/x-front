@@ -11,8 +11,9 @@ export default function robots(): MetadataRoute.Robots {
           "/",
           "/categories",
           "/pornstars",
-          "/videos/categories/*/*$",
-          "/videos/pornstars/*/*$",
+          "/videos/categories/*$", // allow only first page category listings
+          "/videos/pornstars/*$", // allow only first page pornstar listings
+          "/videos/tags/*$", // allow only first page tag listings
         ],
         disallow: [
           "/video/", // block all video detail pages

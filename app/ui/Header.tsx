@@ -63,7 +63,7 @@ export default function Header({ linkboxes }: HeaderProps) {
   const toPrintLinkboxes = linkboxes.linkboxes.map((linkbox, i) => (
     <li
       key={i}
-      className="dropdown dropdown-hover position-unset z-40 relative h-full"
+      className="dropdown dropdown-hover position-unset z-40 relative h-full px-3 -mx-3"
     >
       <a
         tabIndex={0}
@@ -177,9 +177,9 @@ export default function Header({ linkboxes }: HeaderProps) {
   ));
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       {/* Ligne 1 : Logo + SearchBar/Buttons */}
-      <div className="bg-[#080908] py-4 h-24">
+      <div className="bg-[#080908] py-4 h-24 md:border-b-0 border-b-2 border-[#1f1e1d]">
         <div className="container mx-auto px-4 flex items-center justify-between h-full">
           {/* Logo */}
           <Link href="/">
@@ -222,14 +222,13 @@ export default function Header({ linkboxes }: HeaderProps) {
             </button>
           </div>
         </div>
-
-        {/* Mobile Search Bar */}
-        {isSearchOpen && (
-          <div className="md:hidden bg-[#080908] border-t border-[#1f1e1d] px-4 py-3 relative z-50">
-            <SearchBar />
-          </div>
-        )}
       </div>
+      {/* Mobile Search Bar (overlay, just under the line) */}
+      {isSearchOpen && (
+        <div className="md:hidden absolute left-0 right-0 top-24 bg-[#080908] px-4 py-3 z-50">
+          <SearchBar />
+        </div>
+      )}
 
       {/* Desktop Menu */}
       <div className="hidden md:block bg-[#0d0d0b] h-14 flex items-center border-y-2 border-[#1f1e1d] relative">
@@ -237,7 +236,7 @@ export default function Header({ linkboxes }: HeaderProps) {
           <ul
             className={`flex gap-6 text-white h-full text-sm ${inter.className}`}
           >
-            <li className="relative h-full">
+            <li className="relative h-full px-3 -mx-3">
               <a
                 href="/"
                 className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
@@ -245,7 +244,7 @@ export default function Header({ linkboxes }: HeaderProps) {
                 Home
               </a>
             </li>
-            <li className="relative h-full">
+            <li className="relative h-full px-3 -mx-3">
               <a
                 href="/videos/best"
                 className="flex items-center h-full px-1 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-full after:bg-[#fb7ec3] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
