@@ -71,7 +71,20 @@ export default async function Video({ params }: Props) {
   const hasDetails = data.video.duration || data.video.year;
   const hasDescription =
     data.video.description && data.video.description.trim();
-  const hasPreviews = data.video.pictures && data.video.pictures.length > 0;
+
+  // Check for pictures in multiple possible locations
+  const pictures =
+    data.video.pictures ||
+    data.video.images ||
+    data.video.previews ||
+    data.video.screenshots ||
+    data.video.thumbnails ||
+    data.pictures ||
+    data.images ||
+    data.previews ||
+    data.screenshots ||
+    data.thumbnails;
+  const hasPreviews = pictures && pictures.length > 0;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#050504]">
@@ -233,14 +246,34 @@ export default async function Video({ params }: Props) {
                     Previews
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                    {data.video.pictures.map(
-                      (picture: Picture, index: number) => (
-                        <VideoDetailImage
-                          key={index}
-                          index={index}
-                          picture={picture}
-                        />
-                      )
+                    {pictures.map(
+                      (
+                        picture: Picture | Record<string, unknown>,
+                        index: number
+                      ) => {
+                        // Check if picture has the expected structure
+                        if (picture.directUrl && picture.hostUrl) {
+                          return (
+                            <VideoDetailImage
+                              key={index}
+                              index={index}
+                              picture={picture as Picture}
+                            />
+                          );
+                        } else {
+                          // Fallback for different picture structure
+                          return (
+                            <div
+                              key={index}
+                              className="bg-gray-300 h-40 rounded-md flex items-center justify-center"
+                            >
+                              <span className="text-gray-500">
+                                Invalid Image
+                              </span>
+                            </div>
+                          );
+                        }
+                      }
                     )}
                   </div>
                 </div>
