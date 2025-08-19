@@ -31,7 +31,7 @@ export default function VideoCard({
       } ${inter.className}`}
     >
       <HoverProvider>
-        <VideoCardClickableArea id={video.id} title={video.title} />
+        <VideoCardClickableArea url={video.url} />
         <figure className={`${height} w-full overflow-hidden relative`}>
           <VideoCardImage pictures={video.pictures} />
 

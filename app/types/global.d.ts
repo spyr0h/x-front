@@ -44,6 +44,7 @@ type Video = {
   pornstars: Pornstar[];
   links: HostLink[];
   pictures: Picture[];
+  url: string;
 };
 
 type Suggestion = {
